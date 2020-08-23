@@ -11,11 +11,14 @@ export class GenericModelInquirer extends Inquirer<GenericModel> {
   async inquire() {
     await this.prompt(
       "name",
-      Shortcuts.input(`What is the ${this.model.modelTypeName}'s name?`, {
-        validate(value) {
-          return Boolean(value);
-        },
-      })
+      Shortcuts.input(
+        `What is the ${this.model.modelTypeName}'s name? (eg: User)`,
+        {
+          validate(value) {
+            return Boolean(value);
+          },
+        }
+      )
     );
 
     const addFields = await this.prompter.prompt(

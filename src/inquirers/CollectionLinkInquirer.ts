@@ -75,19 +75,19 @@ export class CollectionLinkInquirer extends Inquirer<CollectionLinkModel> {
       Shortcuts.autocomplete("How do we link these collections?", [
         {
           value: "oneToOne",
-          id: `${firstChoice} 1:1 ${secondChoice}`,
+          id: `${firstChoice} (one to one) ${secondChoice}`,
         },
         {
           value: "oneToMany",
-          id: `${firstChoice} one to many ${secondChoice}`,
+          id: `${firstChoice} (one to many) ${secondChoice}`,
         },
         {
           value: "manyToOne",
-          id: `${firstChoice} many to one ${secondChoice}`,
+          id: `${firstChoice} (many to one) ${secondChoice}`,
         },
         {
           value: "manyToMany",
-          id: `${firstChoice} many to many ${secondChoice}`,
+          id: `${firstChoice} (many to many) ${secondChoice}`,
         },
       ])
     );
@@ -96,10 +96,7 @@ export class CollectionLinkInquirer extends Inquirer<CollectionLinkModel> {
     await this.prompt(
       "linkFromA",
       Shortcuts.input(
-        `Enter the link name from collection ${collectionAElement.identityNameRaw} -> ${collectionBElement.identityNameRaw}: `,
-        {
-          default: _.lowerFirst(collectionBElement.identityNameRaw),
-        }
+        `Enter the link name from collection ${collectionAElement.identityNameRaw} -> ${collectionBElement.identityNameRaw}: `
       )
     );
 
@@ -111,18 +108,11 @@ export class CollectionLinkInquirer extends Inquirer<CollectionLinkModel> {
       )
     );
 
-    const targetCollectionElement =
-      firstChoice === "A"
-        ? this.model.collectionBElement
-        : this.model.collectionAElement;
-
-    let guessFieldName = _.lowerFirst(
-      targetCollectionElement.identityName.slice(0, -1)
-    );
-
     await this.prompt(
       "fieldName",
-      Shortcuts.input("Enter the field name for collection linking storage", {})
+      Shortcuts.input("Enter the field name for collection linking storage: ", {
+        // ""
+      })
     );
   }
 }

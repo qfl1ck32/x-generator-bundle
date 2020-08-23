@@ -36,5 +36,11 @@ export class CollectionLinkWriter extends BlueprintWriter<CollectionLinkModel> {
     );
 
     fsOperator.sessionPrependFile(blinksPath, model.importCollectionALine);
+
+    session.afterCommit(() => {
+      console.log(
+        `\nPlease ensure that your database model files and GraphQL types are updated accordingly.\n`
+      );
+    });
   }
 }

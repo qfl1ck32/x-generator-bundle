@@ -27,7 +27,7 @@ export class CollectionLinkModel {
   }
 
   get isUnique() {
-    return ["oneToOne", "manyToOne"].includes(this.type);
+    return ["oneToOne"].includes(this.type);
   }
 
   get importCollectionALine() {

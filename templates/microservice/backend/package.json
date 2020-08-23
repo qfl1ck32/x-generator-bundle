@@ -2,12 +2,18 @@
   "name": "api",
   "description": "Microservice generated with X by Kaviar",
   "version": "1.0.0",
-  "main": "dist/index.js",
+  "private": true,
+  "main": "dist/startup/index.js",
   "scripts": {
     "compile": "tsc",
+    "compile:watch": "tsc -w",
+    "start:watch": "nodemon --watch 'dist' dist/startup/index.js",
+    "start:watch:debug": "nodemon --watch 'dist' dist/startup/index.js --inspect",
     "start": "node dist/startup/index.js",
     "watch": "tsc -w",
     "pretest": "npm run compile",
+    "lint": "eslint './src/**/*.ts'",
+    "lint:fix": "eslint './src/**/*.ts' --fix",
     "test": "jest --verbose dist/__tests__/index.js",
     "test:clean": "jest --clearCache",
     "test:watch": "jest --verbose --watch dist/__tests__/index.js",
@@ -21,16 +27,24 @@
   "dependencies": {
     "@kaviar/apollo-bundle": "^1.0.0",
     "@kaviar/core": "^1.0.0",
+    "@kaviar/email-bundle": "^1.0.0",
+    "@kaviar/executor": "^1.0.0",
     "@kaviar/loader": "^1.0.0",
     "@kaviar/logger-bundle": "^1.0.0",
     "@kaviar/mongo-bundle": "^1.0.0",
-    "@kaviar/x-bundle": "^1.0.0",
-    "@kaviar/validator": "^1.0.0",
     "@kaviar/nova": "^1.2.0",
-    "@kaviar/executor": "^1.0.0",
     "@kaviar/security-bundle": "^1.0.0",
     "@kaviar/security-mongo-bundle": "^1.0.0",
-    "@kaviar/email-bundle": "^1.0.0"
+    "@kaviar/validator": "^1.0.0",
+    "@kaviar/x-bundle": "^1.0.0",
+    "@kaviar/x-password-bundle": "^1.0.0",
+    "@kaviar/password-bundle": "^1.0.0",
+    "@kaviar/apollo-security-bundle": "^1.0.0",
+    "dotenv": "^8.2.0",
+    "graphql": "^15.3.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "yup": "^0.29.2"
   },
   "devDependencies": {
     "@types/chai": "^4.2.3",
@@ -44,20 +58,15 @@
     "chai-as-promised": "^7.1.1",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "6.3.0",
+    "eslint-plugin-jest": "^23.20.0",
     "eslint-plugin-prettier": "3.1.1",
     "jest": "^26.0.0",
     "jest-junit": "^10.0.0",
     "prettier": "^2.0.5",
     "source-map-support": "^0.5.13",
-    "ts-node": "^8.10.2",
-    "typedoc": "^0.15.0",
     "typescript": "^3.8.3"
   },
-  "typings": "dist/index.d.ts",
-  "typescript": {
-    "definition": "dist/index.d.ts"
-  },
-  "x": {
+  "kaviar": {
     "type": "microservice"
   }
 }

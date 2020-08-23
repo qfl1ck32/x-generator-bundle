@@ -1,34 +1,25 @@
-import { expose } from "@kaviar/expose";
-import {
-  CheckLoggedIn,
-  CheckPermissions,
-  CheckDocumentExists,
-  ToModel,
-  ToNova,
-  ToNovaOne,
-  Validate,
-  ToService,
-} from "@kaviar/x-bundle";
+import { execute } from "@kaviar/executor";
+import * as X from "@kaviar/x-bundle";
 
 {{ collectionImportLine }}
 {{ inputImportLine  }}
 {{ serviceImportLine }}
 
 export default {
-  Query: expose({
-    {{ mutationName }}: [
+  Query: execute({
+    {{ queryName }}: [
       {{# if checkLoggedIn }}
-        CheckLoggedIn(),
+        X.CheckLoggedIn(),
       {{/ if }}
       {{# if permissionCheck }}
-        PermissionCheck(['ADMIN']),
+        X.CheckPermission(['ADMIN']),
       {{/ if }}
       {{# if checkCollectionExistence }}
-        CheckDocumentExists({{ collectionClass }})
+        X.CheckDocumentExists({{ collectionClass }})
       {{/ if }}
       {{# if hasInput }}
-        ToModel({{ inputClass }}),
-        Validate(),
+        X.ToModel({{ inputClass }}),
+        X.Validate(),
       {{/ if }}
       {{{ endOperation }}}
     ]

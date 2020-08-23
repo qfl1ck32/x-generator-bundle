@@ -27,6 +27,7 @@ export class MicroserviceWriter extends BlueprintWriter<MicroserviceModel> {
     if (model.type === MicroserviceTypeEnum.BACKEND) {
       const bundleModel = new CreateBundleModel();
       bundleModel.bundleName = "app";
+      bundleModel.containsGraphQL = true;
       writeNewBundle(session, bundleModel, microserviceDir);
     }
 

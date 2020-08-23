@@ -2,6 +2,7 @@ import { GenericModel } from "./GenericModel";
 import { IXElementResult, XElements, XElementType } from "../utils/XElements";
 import { ModelRaceEnum } from "./defs";
 import * as path from "path";
+import { GraphQLFieldMap } from "../utils/ModelUtils";
 
 export class GraphQLQueryModel {
   bundleName: string;
@@ -24,7 +25,10 @@ export class GraphQLQueryModel {
   hasInput: boolean;
   inputAlreadyExists: boolean;
   inputElement?: IXElementResult; // relative to microservice
-  inputModel?: GenericModel = new GenericModel("", ModelRaceEnum.GRAPHQL_INPUT);
+  inputModel?: GenericModel = new GenericModel(
+    null,
+    ModelRaceEnum.GRAPHQL_INPUT
+  );
 
   // In the writing process store this so we can do proper imports
   resolverTargetPath: string;
@@ -34,13 +38,14 @@ export class GraphQLQueryModel {
       return "Boolean";
     }
 
+    const returnType = GraphQLFieldMap[this.returnType] || this.returnType;
+
     if (this.returnTypeIsArray) {
-      return `[${this.returnType}]!`;
+      return `[${returnType}]!`;
     }
 
-    return this.returnType + "!";
+    return returnType + "!";
   }
-
   get collectionClass() {
     return this.collectionElement.identityName;
   }
@@ -70,7 +75,7 @@ export class GraphQLQueryModel {
 
   get inputFormatted() {
     if (this.isNova()) {
-      return `(input: QueryInput!)`;
+      return `(query: QueryInput)`;
     }
 
     if (!this.hasInput) {

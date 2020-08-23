@@ -47,8 +47,8 @@ export class GraphQLEntityWriter extends BlueprintWriter<GraphQLInputModel> {
       "graphql"
     );
     entityOperator.sessionCopy(
-      modelTpls("graphql/model.graphql.tpl"),
-      path.join(graphqlDir, `entities/${model.name}/${model.name}.graphql`)
+      modelTpls("graphql/model.graphql.ts.tpl"),
+      path.join(graphqlDir, `entities/${model.name}/${model.name}.graphql.ts`)
     );
     entityOperator.sessionCopy(
       modelTpls("graphql/model.resolvers.ts.tpl"),

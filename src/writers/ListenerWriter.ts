@@ -11,7 +11,7 @@ export class ListenerWriter extends BlueprintWriter<ListenerModel> {
   write(model: ListenerModel, session: IBlueprintWriterSession) {
     const fsOperator = new FSOperator(session, model);
 
-    const serviceTpls = fsOperator.getTemplatePathCreator("listener");
+    const listenerTpls = fsOperator.getTemplatePathCreator("listener");
     const microserviceDir = FSUtils.getNearest("microservice");
     const listenersDir = FSUtils.bundlePath(
       microserviceDir,
@@ -26,7 +26,7 @@ export class ListenerWriter extends BlueprintWriter<ListenerModel> {
     model.listenerTargetPath = listenerTargetPath;
 
     fsOperator.sessionCopy(
-      serviceTpls("listener.ts.tpl"),
+      listenerTpls("listener.ts.tpl"),
       path.join(listenersDir, `${model.listenerName}.listener.ts`)
     );
 

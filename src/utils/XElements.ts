@@ -16,38 +16,59 @@ export class XElements {
 
     bundles.forEach((bundle) => {
       const bundlePath = path.join(microservicePath, "src", "bundles", bundle);
-      const files = fg.sync(XElementGlob[type], {
-        onlyFiles: true,
-        cwd: bundlePath,
-      });
+      const files = fg
+        .sync(XElementGlob[type], {
+          onlyFiles: true,
+          cwd: bundlePath,
+        })
+        .filter((file) => {
+          // We do not count indexes as a valid XElement
+          return path.basename(file) !== "index.ts";
+        });
 
       files.forEach((file) => {
-        const identityNameRaw = path
-          .basename(file)
-          .split(".")
-          .slice(0, -1 * XElementFilePortionCut[type])
-          .join(".");
-        elements.push({
-          type,
-          bundleName: bundle,
-          elementPath: file,
-          absolutePath: path.join(bundlePath, file),
-          // We don't need to worry about .graphql files because we only import .ts files here
-          importablePath: path.join(
-            bundlePath,
-            file.split(".").slice(0, -1).join(".")
-          ),
-          identityNameRaw: identityNameRaw,
-          identityName:
-            // The idea here is that the file ends with either something like .service.ts,
-            // either ends with .graphql, so we sometimes need to cut the last 2 parts (splitted by .),
-            // sometimes last part. This is what this code does
-            identityNameRaw + XElementClassSuffix[type],
-        });
+        elements.push(
+          XElements.createXElementResult(file, type, bundle, bundlePath)
+        );
       });
     });
 
     return elements;
+  }
+
+  static createXElementResult(
+    filePathRelativeToBundle: string,
+    type: XElementType,
+    bundle: string,
+    bundlePath: string
+  ): IXElementResult {
+    const identityNameRaw = path
+      .basename(filePathRelativeToBundle)
+      .split(".")
+      .slice(0, -1 * XElementFilePortionCut[type])
+      .join(".");
+
+    return {
+      type,
+      bundleName: bundle,
+      elementPath: filePathRelativeToBundle,
+      absolutePath: path.join(bundlePath, filePathRelativeToBundle),
+      // We don't need to worry about .graphql files because we only import .ts files here
+      importablePath: path.join(
+        bundlePath,
+        filePathRelativeToBundle.split(".").slice(0, -1).join(".")
+      ),
+      identityNameRaw: identityNameRaw,
+      identityName:
+        // The idea here is that the file ends with either something like .service.ts,
+        // either ends with .graphql, so we sometimes need to cut the last 2 parts (splitted by .),
+        // sometimes last part. This is what this code does
+        identityNameRaw + XElementClassSuffix[type],
+    };
+  }
+
+  static getRelativeInputPath(inputName): string {
+    return path.join("services", "inputs", `${inputName}.input.ts`);
   }
 
   static importPath(fromFilePath, toImportablePath) {
@@ -102,9 +123,9 @@ export const XElementGlob = {
   [XElementType.LISTENER]: "listeners/**/*.listener.ts",
   [XElementType.COLLECTION]: "collections/**/*.collection.ts",
   [XElementType.COLLECTION_MODEL]: "collections/**/*.model.ts",
-  [XElementType.GRAPHQL_INPUT_MODEL]: "inputs/**/*.ts",
-  [XElementType.GRAPHQL_INPUT]: "graphql/inputs/**/*.graphql",
-  [XElementType.GRAPHQL_ENTITY]: "graphql/entities/**/*.graphql",
+  [XElementType.GRAPHQL_INPUT_MODEL]: "services/inputs/**/*.ts",
+  [XElementType.GRAPHQL_INPUT]: "graphql/inputs/**/*.graphql.ts",
+  [XElementType.GRAPHQL_ENTITY]: "graphql/entities/**/*.graphql.ts",
 };
 
 export const XElementFilePortionCut = {
@@ -114,9 +135,9 @@ export const XElementFilePortionCut = {
   [XElementType.LISTENER]: 2,
   [XElementType.COLLECTION]: 2,
   [XElementType.COLLECTION_MODEL]: 2,
-  [XElementType.GRAPHQL_INPUT_MODEL]: 1,
-  [XElementType.GRAPHQL_INPUT]: 1,
-  [XElementType.GRAPHQL_ENTITY]: 1,
+  [XElementType.GRAPHQL_INPUT_MODEL]: 2, // ?
+  [XElementType.GRAPHQL_INPUT]: 2,
+  [XElementType.GRAPHQL_ENTITY]: 2,
 };
 
 export const XElementClassSuffix = {
@@ -126,7 +147,7 @@ export const XElementClassSuffix = {
   [XElementType.LISTENER]: "Listener",
   [XElementType.COLLECTION]: "Collection",
   [XElementType.COLLECTION_MODEL]: "",
-  [XElementType.GRAPHQL_INPUT_MODEL]: "",
+  [XElementType.GRAPHQL_INPUT_MODEL]: "Input",
   [XElementType.GRAPHQL_INPUT]: "",
   [XElementType.GRAPHQL_ENTITY]: "",
 };

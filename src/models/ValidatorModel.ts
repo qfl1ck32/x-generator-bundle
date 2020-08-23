@@ -6,6 +6,10 @@ export class ValidatorModel {
   validatorName: string;
   yupValidationType: string;
 
+  get validatorNameUpper() {
+    return _.upperFirst(this.validatorName);
+  }
+
   get validatorConfigInterfaceName() {
     return _.upperFirst(this.validatorName) + "Validator";
   }

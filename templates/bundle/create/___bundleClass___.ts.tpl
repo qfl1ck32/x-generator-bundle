@@ -1,30 +1,36 @@
-import { Bundle } from "@kaviar/core";
-import { Loader } from "@kaviar/loader";
-import { ValidatorService } from "@kaviar/validator";
-import { I{{ bundleClass }}Config } from "./defs";
+import { BaseBundle } from "@kaviar/x-bundle";
 import * as listeners from "./listeners";
 import * as collections from "./collections";
 import * as validators from "./validators";
+import * as fixtures from "./fixtures";
+
 {{# if containsGraphQL }}
-  import GraphQLModule from './graphql';
+  import graphqlModule from './graphql';
 {{/ if }}
 
-export class {{ bundleClass }} extends Bundle<I{{ bundleClass }}Config> {
-  async init() {
-    const validator = this.container.get<ValidatorService>(ValidatorService);
-    {{# if containsGraphQL }}
-      const loader = this.container.get<Loader>(Loader);
+{{# if containsServerRoutes }}
+  import { ApolloBundle } from "@kaviar/apollo-bundle";
+  import * as serverRoutes from "./server-routes";
+{{/ if }}
 
-      loader.load(GraphQLModule);
+export class {{ bundleClass }} extends BaseBundle {
+  async prepare() {
+    this.setupBundle({
+      listeners,
+      collections,
+      validators,
+      fixtures,
+      {{# if containsGraphQL }}
+        graphqlModule,
+      {{/ if }}
+    });
+
+    {{# if containsServerRoutes }}
+      // Adding server routes
+      const apolloBundle = this.container.get<ApolloBundle>(ApolloBundle);
+      Object.values(serverRoutes).filter(v => Boolean(v)).forEach(
+        (serverRoute) => apolloBundle.addRoute(serverRoute)
+      );
     {{/ if }}
-
-    // Warming up forces instantiation and initialisastion of classes
-    this.warmup([
-      ...Object.values(listeners),
-      ...Object.values(collections)
-    ]);
-
-    // Adding validators
-    Object.values(validators).map(validator.addMethod);
   }
 }

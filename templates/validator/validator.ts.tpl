@@ -1,13 +1,14 @@
 import { yup, IValidationMethod } from "@kaviar/validator";
 import { Collection } from "@kaviar/mongo-bundle";
 import { ContainerInstance, Constructor } from "@kaviar/core";
+import "{{ validatorClassName }}.declarations";
 
 export interface I{{ validatorClassName }}Config {
-message?: string;
+  message?: string;
 }
 
 export class {{ validatorClassName }}
-implements IValidationMethod<IUniqueFieldValidationConfig> {
+implements IValidationMethod<I{{ validatorClassName }}Config> {
   parent = yup.{{ yupValidationType }}; // optional, defaults to yup.mixed, so to all
   name = "{{ validatorName }}";
 
@@ -15,7 +16,7 @@ implements IValidationMethod<IUniqueFieldValidationConfig> {
 
   async validate(
   value: any,
-  config: I{{ validatorName }}Config,
+  config: I{{ validatorClassName }}Config,
   { createError, path }
   ) {
   // The 3d argument, the context, is properly described here:

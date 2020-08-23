@@ -17,6 +17,5 @@ export class {{ serviceClass }} {
     public {{ this }}() {
       throw new Error("Not implemented, yet.");
     }
-    
   {{/ each }}
 }

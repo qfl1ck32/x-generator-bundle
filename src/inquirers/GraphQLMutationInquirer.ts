@@ -132,6 +132,7 @@ export class GraphQLMutationInquirer extends Inquirer<GraphQLMutationModel> {
       } else {
         const inputInquirer = this.container.get(GenericModelInquirer);
         this.model.inputModel.yupValidation = true;
+        this.model.inputModel.name = _.upperFirst(this.model.mutationName);
         inputInquirer.model = this.model.inputModel;
         await inputInquirer.inquire();
       }

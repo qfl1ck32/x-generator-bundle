@@ -7,12 +7,17 @@ export class GraphQLCRUDModel {
   bundleName: string;
   crudName: string;
   collectionElement: IXElementResult;
+  graphqlEntityElement: IXElementResult;
   checkLoggedIn: boolean;
   permissionCheck: boolean;
   resolverTargetPath: string;
 
   get collectionClass() {
     return this.collectionElement.identityName;
+  }
+
+  get entityType() {
+    return this.graphqlEntityElement.identityName;
   }
 
   get collectionImportLine() {

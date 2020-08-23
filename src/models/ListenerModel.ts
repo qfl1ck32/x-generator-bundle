@@ -30,7 +30,7 @@ export class ListenerModel {
     return this.createImportLine(this.collectionElement);
   }
 
-  get collectionClass() {
+  get collectionClassName() {
     return this.collectionElement.identityName;
   }
 

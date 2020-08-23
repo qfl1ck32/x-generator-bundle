@@ -134,6 +134,7 @@ export class GraphQLQueryInquirer extends Inquirer<GraphQLQueryModel> {
         const inputInquirer = this.container.get(GenericModelInquirer);
         this.model.inputModel.yupValidation = true;
         inputInquirer.model = this.model.inputModel;
+        inputInquirer.model.name = _.upperFirst(this.model.queryName);
         await inputInquirer.inquire();
       }
     }

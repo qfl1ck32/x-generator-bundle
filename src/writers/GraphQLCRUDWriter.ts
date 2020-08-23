@@ -28,8 +28,8 @@ export class GraphQLCRUDWriter extends BlueprintWriter<GraphQLCRUDModel> {
       model.crudName
     );
     fsOperator.sessionCopy(
-      graphqlTpls("crudModule.graphql.tpl"),
-      path.join(basePath, model.crudName + ".graphql")
+      graphqlTpls("crudModule.graphql.ts.tpl"),
+      path.join(basePath, model.crudName + ".graphql.ts")
     );
 
     // Useful to know how to import stuffs
@@ -41,7 +41,7 @@ export class GraphQLCRUDWriter extends BlueprintWriter<GraphQLCRUDModel> {
     model.resolverTargetPath = resolverTargetPath;
 
     fsOperator.sessionCopy(
-      graphqlTpls("mutation.resolvers.ts.tpl"),
+      graphqlTpls("crudModule.resolvers.ts.tpl"),
       resolverTargetPath
     );
   }

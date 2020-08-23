@@ -18,7 +18,7 @@ export class ValidatorInquirer extends Inquirer<ValidatorModel> {
     await this.prompt(
       "validatorName",
       Shortcuts.input(
-        "Enter the name of your event (eg: GitHubUsernameExists)",
+        "Enter the name of your event (eg: gitHubUsernameExists)",
         {
           validate(value) {
             return Boolean(value);

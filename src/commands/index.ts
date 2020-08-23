@@ -29,6 +29,14 @@ import { GraphQLCRUDInquirer } from "../inquirers/GraphQLCRUDInquirer";
 import { GraphQLCRUDWriter } from "../writers/GraphQLCRUDWriter";
 import { CollectionLinkInquirer } from "../inquirers/CollectionLinkInquirer";
 import { CollectionLinkWriter } from "../writers/CollectionLinkWriter";
+import { GraphQLQueryInquirer } from "../inquirers/GraphQLQueryInquirer";
+import { GraphQLQueryWriter } from "../writers/GraphQLQueryWriter";
+import { ValidatorInquirer } from "../inquirers/ValidatorInquirer";
+import { ValidatorWriter } from "../writers/ValidatorWriter";
+import { ServerRouteInquirer } from "../inquirers/ServerRouteInquirer";
+import { ServerRouteWriter } from "../writers/ServerRouteWriter";
+import { FixtureInquirer } from "../inquirers/FixtureInquirer";
+import { FixtureWriter } from "../writers/FixtureWriter";
 
 const commands: ICommand[] = [
   {
@@ -45,7 +53,7 @@ const commands: ICommand[] = [
   },
   {
     namespace: "x",
-    name: "create-bundle",
+    name: "bundle",
     inquirer: CreateBundleInquirer,
     writer: CreateBundleWriter,
   },
@@ -54,6 +62,12 @@ const commands: ICommand[] = [
     name: "collection",
     inquirer: CollectionInquirer,
     writer: CollectionWriter,
+  },
+  {
+    namespace: "x",
+    name: "validator",
+    inquirer: ValidatorInquirer,
+    writer: ValidatorWriter,
   },
   {
     namespace: "x",
@@ -67,6 +81,25 @@ const commands: ICommand[] = [
     inquirer: GraphQLEntityInquirer,
     writer: GraphQLEntityWriter,
   },
+
+  {
+    namespace: "x",
+    name: "graphql-mutation",
+    inquirer: GraphQLMutationInquirer,
+    writer: GraphQLMutationWriter,
+  },
+  {
+    namespace: "x",
+    name: "graphql-query",
+    inquirer: GraphQLQueryInquirer,
+    writer: GraphQLQueryWriter,
+  },
+  {
+    namespace: "x",
+    name: "graphql-crud",
+    inquirer: GraphQLCRUDInquirer,
+    writer: GraphQLCRUDWriter,
+  },
   {
     namespace: "x",
     name: "service",
@@ -75,9 +108,21 @@ const commands: ICommand[] = [
   },
   {
     namespace: "x",
+    name: "server-route",
+    inquirer: ServerRouteInquirer,
+    writer: ServerRouteWriter,
+  },
+  {
+    namespace: "x",
     name: "listener",
     inquirer: ListenerInquirer,
     writer: ListenerWriter,
+  },
+  {
+    namespace: "x",
+    name: "fixtures",
+    inquirer: FixtureInquirer,
+    writer: FixtureWriter,
   },
   {
     namespace: "x",
@@ -90,18 +135,6 @@ const commands: ICommand[] = [
     name: "exception",
     inquirer: ExceptionInquirer,
     writer: ExceptionWriter,
-  },
-  {
-    namespace: "x",
-    name: "graphql-mutation",
-    inquirer: GraphQLMutationInquirer,
-    writer: GraphQLMutationWriter,
-  },
-  {
-    namespace: "x",
-    name: "graphql-crud",
-    inquirer: GraphQLCRUDInquirer,
-    writer: GraphQLCRUDWriter,
   },
   {
     namespace: "x",

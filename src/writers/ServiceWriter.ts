@@ -11,6 +11,9 @@ import { GraphQLEntityWriter } from "./GraphQLEntityWriter";
 import { GraphQLInputModel } from "../models/GraphQLInputModel";
 import { ModelRaceEnum } from "../models/defs";
 import { ServiceModel } from "../models/ServiceModel";
+import { UnitTestModel } from "../models/UnitTestModel";
+import { XElements, XElementType } from "../utils/XElements";
+import { UnitTestWriter } from "./UnitTestWriter";
 
 export class ServiceWriter extends BlueprintWriter<ServiceModel> {
   write(model: ServiceModel, session: IBlueprintWriterSession) {
@@ -18,20 +21,37 @@ export class ServiceWriter extends BlueprintWriter<ServiceModel> {
 
     const serviceTpls = fsOperator.getTemplatePathCreator("service");
     const microserviceDir = FSUtils.getNearest("microservice");
-    const servicesDir = FSUtils.bundlePath(
-      microserviceDir,
-      model.bundleName,
-      "services"
-    );
+    const bundlePath = FSUtils.bundlePath(microserviceDir, model.bundleName);
+    const servicesDir = path.join(bundlePath, "services");
 
-    fsOperator.sessionCopy(
-      serviceTpls("service.ts.tpl"),
-      path.join(servicesDir, `${model.serviceName}.service.ts`)
+    const servicePath = path.join(
+      servicesDir,
+      `${model.serviceName}.service.ts`
     );
+    fsOperator.sessionCopy(serviceTpls("service.ts.tpl"), servicePath);
 
     fsOperator.sessionAppendFile(
       path.join(servicesDir, "index.ts"),
       `export * from "./${model.serviceName}.service"`
     );
+
+    const unitTestModel = this.createUnitTestModel(model, microserviceDir);
+
+    this.getWriter(UnitTestWriter).write(unitTestModel, session);
+  }
+
+  protected createUnitTestModel(model: ServiceModel, microserviceDir: any) {
+    const unitTestModel = new UnitTestModel();
+    unitTestModel.bundleName = model.bundleName;
+    unitTestModel.element = XElements.createXElementResult(
+      path.join("services", `${model.serviceName}.service.ts`),
+      XElementType.SERVICE,
+      model.bundleName,
+      FSUtils.bundlePath(microserviceDir, model.bundleName)
+    );
+
+    unitTestModel.methodNames = model.methodsArray.concat([]);
+
+    return unitTestModel;
   }
 }

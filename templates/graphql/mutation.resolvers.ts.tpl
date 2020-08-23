@@ -1,4 +1,4 @@
-import { expose } from "@kaviar/expose";
+import { execute } from "@kaviar/executor";
 import * as X from "@kaviar/x-bundle";
 
 {{ collectionImportLine }}
@@ -6,7 +6,7 @@ import * as X from "@kaviar/x-bundle";
 {{ serviceImportLine }}
 
 export default {
-  Mutation: expose({
+  Mutation: execute({
     {{ mutationName }}: [
       {{# if checkLoggedIn }}
         X.CheckLoggedIn(),

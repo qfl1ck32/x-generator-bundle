@@ -29,26 +29,30 @@ export class GraphQLInputWriter extends BlueprintWriter<GraphQLInputModel> {
         type: GenericFieldTypeEnum.STRING,
       });
     }
+
     fsOperator.sessionCopy(
-      tpl("graphql/input.graphql.tpl"),
+      tpl("graphql/input.graphql.ts.tpl"),
       path.join(
         bundlePath,
         "graphql",
         "inputs",
-        genericModel.modelClass + ".graphql"
+        genericModel.modelClass + ".graphql.ts"
       )
     );
 
     fsOperator.sessionCopy(
       tpl("ts/model.ts.tpl"),
-      path.join(bundlePath, "inputs", genericModel.modelClass + ".ts")
+      path.join(
+        bundlePath,
+        "services",
+        "inputs",
+        genericModel.modelName + ".input.ts"
+      )
     );
 
     fsOperator.sessionAppendFile(
-      path.join(bundlePath, "inputs", "index.ts"),
-      `
-      export * from './${genericModel.modelClass}';
-      `
+      path.join(bundlePath, "services", "inputs", "index.ts"),
+      `export * from './${genericModel.modelName + ".input"}';`
     );
   }
 }

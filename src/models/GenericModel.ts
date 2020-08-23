@@ -80,6 +80,10 @@ export class GenericModel {
     return "model";
   }
 
+  get modelName() {
+    return _.upperFirst(this.name);
+  }
+
   get modelClass() {
     return _.upperFirst(this.name) + this.modelClassSuffix;
   }

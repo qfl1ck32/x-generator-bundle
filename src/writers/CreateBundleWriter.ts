@@ -36,6 +36,13 @@ export function writeNewBundle(
     fsOperator.sessionCopy(tpl("graphql"), path.join(bundlePath, "graphql"));
   }
 
+  if (model.containsServerRoutes) {
+    fsOperator.sessionCopy(
+      tpl("server-routes"),
+      path.join(bundlePath, "server-routes")
+    );
+  }
+
   fsOperator.sessionAppendFile(
     path.join(bundlePath, "index.ts"),
     `export * from "./{{ bundleClass }}"`
@@ -58,6 +65,11 @@ export function writeNewBundle(
        import { kernel } from '../kernel'; 
 
        kernel.addBundle(new {{ bundleClass}}());`
+  );
+
+  fsOperator.sessionAppendFile(
+    path.join(microserviceDir, "src", "startup", "bundles", "index.ts"),
+    `import "./{{ bundleName }}"`
   );
 
   session.afterCommit(() => {

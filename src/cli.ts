@@ -3,14 +3,14 @@
 // CLITS
 import { Kernel } from "@kaviar/core";
 import { TerminalBundle } from "@kaviar/terminal-bundle";
-import { XTerminalBundle } from "./XTerminalBundle";
+import { XGeneratorBundle } from "./XGeneratorBundle";
 
 const kernel = new Kernel({
   bundles: [
     new TerminalBundle({
       version: require("../package.json").version,
     }),
-    new XTerminalBundle(),
+    new XGeneratorBundle(),
   ],
 });
 

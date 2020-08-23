@@ -10,12 +10,17 @@ export class CreateBundleInquirer extends Inquirer<CreateBundleModel> {
 
     await this.prompt(
       "bundleName",
-      Shortcuts.input("Enter the name of your bundle")
+      Shortcuts.input("Enter the name of your bundle (eg: invoice)")
     );
 
     await this.prompt(
       "containsGraphQL",
-      Shortcuts.confirm("Add GraphQL folder?")
+      Shortcuts.confirm("Does this bundle use GraphQL?", true)
+    );
+
+    await this.prompt(
+      "containsServerRoutes",
+      Shortcuts.confirm("Would this bundle expose server routes?", true)
     );
   }
 }

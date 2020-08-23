@@ -1,7 +1,8 @@
 {
   "name": "@kaviar/x-generator-bundle",
   "version": "1.0.0",
-  "description": "Kaviar Template",
+  "private": true,
+  "description": "Scaffolding tool for Kaviar Framework using X-way.",
   "main": "dist/index.js",
   "repository": {
     "type": "git",

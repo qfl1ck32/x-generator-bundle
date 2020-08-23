@@ -23,17 +23,17 @@ export class ValidatorWriter extends BlueprintWriter<ValidatorModel> {
 
     fsOperator.sessionCopy(
       validatorTpls("validator.ts.tpl"),
-      path.join(validatorsDir, model.validatorClassName + ".ts")
+      path.join(validatorsDir, model.validatorNameUpper + ".validator.ts")
     );
 
     fsOperator.sessionCopy(
-      path.join(validatorsDir, model.validatorClassName + ".d.ts"),
-      validatorTpls("declarations.d.ts")
+      validatorTpls("declarations.d.ts.tpl"),
+      path.join(validatorsDir, model.validatorClassName + ".declarations.ts")
     );
 
     fsOperator.sessionAppendFile(
       path.join(validatorsDir, "index.ts"),
-      `export * from "./{{ validatorClassName }}"`
+      `export * from "./{{ validatorNameUpper }}.validator"`
     );
   }
 }
