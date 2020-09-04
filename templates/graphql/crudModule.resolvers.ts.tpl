@@ -1,15 +1,15 @@
-import { group } from "@kaviar/executor";
 import * as X from "@kaviar/x-bundle";
 {{ collectionImportLine }}
 
 export default {
-  Query: group([
-    {{# if checkLoggedIn }}
-    X.CheckLoggedIn(),
-    {{/ if }}
-    {{# if permissionCheck }}
-    X.PermissionCheck(['ADMIN']),
-    {{/ if }}
+  Query: [
+    [
+      {{# if checkLoggedIn }}
+      X.CheckLoggedIn(),
+      {{/ if }}
+      {{# if permissionCheck }}
+      X.PermissionCheck(['ADMIN']),
+      {{/ if }}
     ], 
     {
       {{ crudName }}FindOne: [
@@ -22,8 +22,9 @@ export default {
       X.ToCollectionCount({{ collectionClass }})
       ]
     }
-  ),
-  Mutation: group([
+  ],
+  Mutation: [
+    [
     {{# if checkLoggedIn }}
     X.CheckLoggedIn(),
     {{/ if }}
@@ -31,19 +32,20 @@ export default {
       X.CheckPermission(['ADMIN']),
     {{/ if }}
     ], {
-    {{ crudName }}InsertOne: [
-      X.ToDocumentInsert({{ collectionClass }}),
-      X.ToNovaByResultID({{ collectionClass }})
-    ],
-    {{ crudName }}UpdateOne: [
-      X.CheckDocumentExists({{ collectionClass }}),
-      X.ToDocumentUpdateByID({{ collectionClass }}),
-      X.ToNovaByResultID({{ collectionClass }})
-    ],
-    {{ crudName }}DeleteOne: [
-      X.CheckDocumentExists({{ collectionClass }}),
-      X.ToDocumentDeleteByID({{ collectionClass }}),
-      X.ToNovaByResultID({{ collectionClass }})
-    ]
-    })
+      {{ crudName }}InsertOne: [
+        X.ToDocumentInsert({{ collectionClass }}),
+        X.ToNovaByResultID({{ collectionClass }})
+      ],
+      {{ crudName }}UpdateOne: [
+        X.CheckDocumentExists({{ collectionClass }}),
+        X.ToDocumentUpdateByID({{ collectionClass }}),
+        X.ToNovaByResultID({{ collectionClass }})
+      ],
+      {{ crudName }}DeleteOne: [
+        X.CheckDocumentExists({{ collectionClass }}),
+        X.ToDocumentDeleteByID({{ collectionClass }}),
+        X.ToNovaByResultID({{ collectionClass }})
+      ]
+    }
+  ]
 }

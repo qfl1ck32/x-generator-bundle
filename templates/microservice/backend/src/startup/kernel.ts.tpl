@@ -9,6 +9,7 @@ import { ApolloSecurityBundle } from "@kaviar/apollo-security-bundle";
 import { PasswordBundle } from "@kaviar/password-bundle";
 import { XPasswordBundle } from "@kaviar/x-password-bundle";
 import { EmailBundle } from "@kaviar/email-bundle";
+import { ValidatorBundle } from "@kaviar/validator-bundle";
 import env from "./env";
 
 export const kernel = new Kernel({
@@ -18,6 +19,7 @@ export const kernel = new Kernel({
   },
   bundles: [
     new LoggerBundle(),
+    new ValidatorBundle(),
     new ApolloBundle({
       port: env.ROOT_PORT,
       url: env.ROOT_URL,

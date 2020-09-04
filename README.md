@@ -1,4 +1,4 @@
-<h1 align="center">KAVIAR CORE</h1>
+<h1 align="center">KAVIAR X GENERATOR</h1>
 
 <p align="center">
   <a href="https://travis-ci.org/kaviarjs/x-generator-bundle">
