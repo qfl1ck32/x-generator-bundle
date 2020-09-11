@@ -13,5 +13,5 @@ export default {
   ROOT_URL: process.env.ROOT_URL,
   ROOT_PORT: parseInt(process.env.ROOT_PORT),
   MONGO_URL: process.env.MONGO_URL,
-  CONTEXT: process.env.NODE_ENV as KernelContext,
+  CONTEXT: (process.env.NODE_ENV as KernelContext) || KernelContext.DEVELOPMENT,
 };
