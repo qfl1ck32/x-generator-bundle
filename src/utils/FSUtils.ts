@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as fse from "fs-extra";
+import { NearestElementNotFoundException } from "../exceptions/NearestElementNotFound.exception";
 
 const TEMPLATES_DIR = __dirname + "/../../templates";
 
@@ -10,7 +11,7 @@ export class FSUtils {
     starting = process.cwd()
   ) {
     if (starting === "/") {
-      throw new Error("Could not find a parent folder for type: " + type);
+      throw new NearestElementNotFoundException({ type });
     }
     const filePath = path.join(starting, "package.json");
 

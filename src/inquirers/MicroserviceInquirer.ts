@@ -2,12 +2,24 @@ import { Inquirer, Shortcuts } from "@kaviar/terminal-bundle";
 import { MicroserviceModel, MicroserviceTypeEnum } from "../models";
 import { FSUtils } from "../utils/FSUtils";
 import * as path from "path";
+import { NearestElementNotFoundException } from "../exceptions/NearestElementNotFound.exception";
 
 export class MicroserviceInquirer extends Inquirer<MicroserviceModel> {
   model = new MicroserviceModel();
 
   async inquire() {
-    const nearest = FSUtils.getNearest("project");
+    try {
+      const nearest = FSUtils.getNearest("project");
+    } catch (e) {
+      if (e instanceof NearestElementNotFoundException) {
+        // It's ok
+        console.log(
+          `This microservice is not part of any project. We will create it in your current folder: ${process.cwd()}`
+        );
+      } else {
+        throw e;
+      }
+    }
 
     await this.prompt(
       "name",
