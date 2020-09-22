@@ -13,7 +13,7 @@ import * as fixtures from "./fixtures";
   import * as serverRoutes from "./server-routes";
 {{/ if }}
 
-export class {{ bundleClass }} extends BaseBundle {
+export class {{ bundleClass }} extends BaseBundle<any> {
   async prepare() {
     this.setupBundle({
       listeners,

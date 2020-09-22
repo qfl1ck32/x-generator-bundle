@@ -25,12 +25,12 @@
     "generate:docs": "typedoc ./src/startup/index.ts --exclude ./src/__tests__ --out typeDocs --tsconfig tsconfig.json"
   },
   "dependencies": {
-    "@kaviar/apollo-bundle": "^1.0.0",
+    "@kaviar/apollo-bundle": "^1.0.1",
     "@kaviar/core": "^1.0.0",
     "@kaviar/email-bundle": "^1.0.0",
     "@kaviar/graphql-bundle": "^1.0.0",
     "@kaviar/logger-bundle": "^1.0.0",
-    "@kaviar/mongo-bundle": "^1.0.0",
+    "@kaviar/mongo-bundle": "^1.0.2",
     "@kaviar/nova": "^1.2.0",
     "@kaviar/security-bundle": "^1.0.0",
     "@kaviar/security-mongo-bundle": "^1.0.0",
@@ -40,6 +40,7 @@
     "@kaviar/password-bundle": "^1.0.0",
     "@kaviar/apollo-security-bundle": "^1.0.0",
     "dotenv": "^8.2.0",
+    "class-transformer": "^0.3.1",
     "graphql": "^15.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
