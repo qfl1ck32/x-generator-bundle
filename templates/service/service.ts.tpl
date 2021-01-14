@@ -4,11 +4,9 @@ import { Service, Inject, EventManager, ContainerInstance } from "@kaviar/core";
 export class {{ serviceClass }} {
   constructor(
     {{# if injectContainer }}
-      @Inject()
       protected readonly container: ContainerInstance,
     {{/ if }}
     {{# if injectEventManager }}
-      @Inject()
       protected readonly eventManager: EventManager,
     {{/ if }}
   ) {}
