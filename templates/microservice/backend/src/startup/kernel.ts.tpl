@@ -23,6 +23,7 @@ export const kernel = new Kernel({
     new ApolloBundle({
       port: env.ROOT_PORT,
       url: env.ROOT_URL,
+      enableSubscriptions: true,
     }),
     new MongoBundle({
       uri: env.MONGO_URL,

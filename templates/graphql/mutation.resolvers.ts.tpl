@@ -11,7 +11,7 @@ export default {
         X.CheckLoggedIn(),
       {{/ if }}
       {{# if permissionCheck }}
-        X.PermissionCheck(['ADMIN']),
+        X.CheckPermission(['ADMIN']),
       {{/ if }}
       {{# if checkCollectionExistence }}
         X.CheckDocumentExists({{ collectionClass }})

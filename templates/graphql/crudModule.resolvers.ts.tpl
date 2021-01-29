@@ -8,7 +8,7 @@ export default {
       X.CheckLoggedIn(),
       {{/ if }}
       {{# if permissionCheck }}
-      X.PermissionCheck(['ADMIN']),
+      X.CheckPermission(['ADMIN']),
       {{/ if }}
     ], 
     {
