@@ -9,5 +9,26 @@ import { FSOperator } from "../utils/FSOperator";
 import { CollectionModel } from "../models/CollectionModel";
 
 export class GenericModelWriter extends BlueprintWriter<GenericModel> {
-  write(model: GenericModel, session: IBlueprintWriterSession) {}
+  write(model: GenericModel, session: IBlueprintWriterSession) {
+    const modelOperator = new FSOperator(session, model);
+    const modelTpls = FSUtils.getTemplatePathCreator("model");
+
+    if (!model.targetPath) {
+      throw new Error(
+        `You are using this generic writer without providing "targetPath" to the GenericModel`
+      );
+    }
+
+    modelOperator.sessionCopy(modelTpls("ts/model.ts.tpl"), model.targetPath);
+
+    const modelDir = path.dirname(model.targetPath);
+    model.enums.forEach((myEnum) => {
+      const enumOperator = new FSOperator(session, myEnum);
+
+      enumOperator.sessionCopy(
+        modelTpls("ts/enum.ts.tpl"),
+        path.join(modelDir, "enums", `${myEnum.className}.enum.ts`)
+      );
+    });
+  }
 }

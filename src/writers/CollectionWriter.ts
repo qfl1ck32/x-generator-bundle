@@ -10,6 +10,7 @@ import { CollectionModel } from "../models/CollectionModel";
 import { GraphQLEntityWriter } from "./GraphQLEntityWriter";
 import { GraphQLInputModel } from "../models/GraphQLInputModel";
 import { ModelRaceEnum } from "../models/defs";
+import { GenericModelWriter } from "./GenericModelWriter";
 
 export class CollectionWriter extends BlueprintWriter<CollectionModel> {
   write(model: CollectionModel, session: IBlueprintWriterSession) {
@@ -33,11 +34,14 @@ export class CollectionWriter extends BlueprintWriter<CollectionModel> {
     );
 
     model.modelDefinition.yupValidation = true;
+    model.modelDefinition.targetPath = path.join(
+      currentCollectionDir,
+      `${model.modelDefinition.name}.model.ts`
+    );
 
-    const modelOperator = new FSOperator(session, model.modelDefinition);
-    modelOperator.sessionCopy(
-      modelTpls("ts/model.ts.tpl"),
-      path.join(currentCollectionDir, `${model.modelDefinition.name}.model.ts`)
+    this.getWriter<GenericModel>(GenericModelWriter).write(
+      model.modelDefinition,
+      session
     );
 
     if (model.createEntity) {

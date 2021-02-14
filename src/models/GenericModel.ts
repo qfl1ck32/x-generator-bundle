@@ -15,6 +15,9 @@ export class GenericModel {
   fields: IGenericField[] = [];
   yupValidation: boolean = false;
 
+  // Where should it be written
+  targetPath?: string;
+
   constructor(name?: string, race?: ModelRaceEnum, fields?: IGenericField[]) {
     this.name = name;
     if (race) {
@@ -104,7 +107,12 @@ export class GenericModel {
   get graphqlContents(): string {
     let result = "";
     this.fields.forEach((field) => {
-      result += ModelUtils.getFieldSignatureForGraphQL(field) + "\n";
+      if (field.type === GenericFieldTypeEnum.ENUM) {
+        result +=
+          ModelUtils.getEnumSignatureForGraphQL(field, this.modelClass) + "\n";
+      } else {
+        result += ModelUtils.getFieldSignatureForGraphQL(field) + "\n";
+      }
     });
 
     return result;
@@ -113,10 +121,18 @@ export class GenericModel {
   get tsContents(): string {
     let result = "";
     this.fields.forEach((field) => {
+      if (this.isFieldPartOfSubmodel(field)) {
+        return;
+      }
       if (this.yupValidation) {
         result += ModelUtils.getYupValidatorDecorator(field) + "\n";
       }
-      result += ModelUtils.getFieldSignatureForTS(field) + "\n";
+      if (field.type === GenericFieldTypeEnum.ENUM) {
+        result +=
+          ModelUtils.getEnumSignatureForTS(field, this.modelClass) + "\n";
+      } else {
+        result += ModelUtils.getFieldSignatureForTS(field) + "\n";
+      }
 
       if (this.yupValidation) {
         // A decorator would need more space to be visibly attractive
@@ -125,5 +141,45 @@ export class GenericModel {
     });
 
     return result;
+  }
+
+  get enums(): Array<{
+    className: string;
+    elements: Array<{
+      label: string;
+      field: string;
+      value: string;
+    }>;
+  }> {
+    const enums = this.fields
+      .filter((field) => {
+        return field.type === GenericFieldTypeEnum.ENUM;
+      })
+      .map((field) => {
+        return {
+          className: ModelUtils.getEnumClassName(field, this.modelClass),
+          elements: field.enumCSVValues.split(",").map((label) => {
+            label = label.trim();
+            return {
+              label,
+              field: _.toUpper(_.snakeCase(label)),
+              value: _.kebabCase(label),
+            };
+          }),
+        };
+      });
+
+    return enums;
+  }
+
+  /**
+   * TODO: Make it create fields out of dotted fields.
+   */
+  get submodels(): Array<{ GenericModel }> {
+    return [];
+  }
+
+  protected isFieldPartOfSubmodel(field: IGenericField) {
+    return field.name.indexOf(".") >= 0;
   }
 }

@@ -1,3 +1,4 @@
+import * as _ from "lodash";
 import { IGenericField, GenericFieldTypeEnum } from "../models/defs";
 
 export class ModelUtils {
@@ -26,12 +27,42 @@ export class ModelUtils {
     return `${fieldName}: ${signature};`;
   }
 
+  /**
+   * @param field
+   * @param modelClass Represents the context of enum: InvoiceStatus
+   */
+  static getEnumSignatureForTS(field: IGenericField, modelClass?: string) {
+    let fieldName = field.name;
+    if (field.isOptional) {
+      fieldName = fieldName + "?";
+    }
+    return `${fieldName}: ${ModelUtils.getEnumClassName(field, modelClass)}`;
+  }
+
+  /**
+   * @param field
+   * @param modelClass Represents the context of enum: InvoiceStatus
+   */
+  static getEnumSignatureForGraphQL(field: IGenericField, modelClass?: string) {
+    let fieldName = field.name;
+    let fieldType = ModelUtils.getEnumClassName(field, modelClass);
+    if (!field.isOptional) {
+      fieldType = fieldType + "!";
+    }
+
+    return `${fieldName}: ${ModelUtils.getEnumClassName(field, modelClass)}`;
+  }
+
   static getYupValidatorDecorator(field: IGenericField) {
     const aWhat = startsWithVowel(field.name) ? "an" : "a";
     const yupType = YupFieldMap[field.type];
     const isRequired = !field.isOptional ? ".required()" : "";
 
     return `@Is(${aWhat}.${yupType}()${isRequired})`;
+  }
+
+  static getEnumClassName(field: IGenericField, modelClass?: string): string {
+    return modelClass + _.capitalize(field.name);
   }
 }
 
@@ -68,6 +99,7 @@ export const TSFieldMap = {
 export const YupFieldMap = {
   [GenericFieldTypeEnum.BOOLEAN]: "boolean",
   [GenericFieldTypeEnum.STRING]: "string",
+  [GenericFieldTypeEnum.ENUM]: "string",
   [GenericFieldTypeEnum.DATE]: "date",
   [GenericFieldTypeEnum.FLOAT]: "number",
   [GenericFieldTypeEnum.INT]: "number",
