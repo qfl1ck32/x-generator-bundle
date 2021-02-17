@@ -1,129 +1,93 @@
 import { ICommand } from "@kaviar/terminal-bundle";
-import { GraphQLInputInquirer } from "../inquirers/GraphQLInputInquirer";
-import { GraphQLInputWriter } from "../writers/GraphQLInputWriter";
-import { GraphQLEntityWriter } from "../writers/GraphQLEntityWriter";
-import {
-  ProjectInquirer,
-  MicroserviceInquirer,
-  CreateBundleInquirer,
-  CollectionInquirer,
-} from "../inquirers";
-import {
-  ProjectWriter,
-  MicroserviceWriter,
-  CreateBundleWriter,
-  CollectionWriter,
-} from "../writers";
-import { GraphQLEntityInquirer } from "../inquirers/GraphQLEntityInquirer";
-import { ServiceInquirer } from "../inquirers/ServiceInquirer";
-import { ServiceWriter } from "../writers/ServiceWriter";
-import { ListenerInquirer } from "../inquirers/ListenerInquirer";
-import { ListenerWriter } from "../writers/ListenerWriter";
-import { EventInquirer } from "../inquirers/EventInquirer";
-import { EventWriter } from "../writers/EventWriter";
-import { ExceptionInquirer } from "../inquirers/ExceptionInquirer";
-import { ExceptionWriter } from "../writers/ExceptionWriter";
-import { GraphQLMutationInquirer } from "../inquirers/GraphQLMutationInquirer";
-import { GraphQLMutationWriter } from "../writers/GraphQLMutationWriter";
-import { GraphQLCRUDInquirer } from "../inquirers/GraphQLCRUDInquirer";
-import { GraphQLCRUDWriter } from "../writers/GraphQLCRUDWriter";
-import { CollectionLinkInquirer } from "../inquirers/CollectionLinkInquirer";
-import { CollectionLinkWriter } from "../writers/CollectionLinkWriter";
-import { GraphQLQueryInquirer } from "../inquirers/GraphQLQueryInquirer";
-import { GraphQLQueryWriter } from "../writers/GraphQLQueryWriter";
-import { ValidatorInquirer } from "../inquirers/ValidatorInquirer";
-import { ValidatorWriter } from "../writers/ValidatorWriter";
-import { ServerRouteInquirer } from "../inquirers/ServerRouteInquirer";
-import { ServerRouteWriter } from "../writers/ServerRouteWriter";
-import { FixtureInquirer } from "../inquirers/FixtureInquirer";
-import { FixtureWriter } from "../writers/FixtureWriter";
+import * as Inquirers from "../inquirers";
+import * as Writers from "../writers";
 
 const commands: ICommand[] = [
   {
-    id: "x:project",
-    inquirer: ProjectInquirer,
-    writer: ProjectWriter,
+    id: "x-cell:generate",
+    inquirer: Inquirers.ProjectInquirer,
+    writer: Writers.ProjectWriter,
   },
   {
     id: "x:microservice",
-    inquirer: MicroserviceInquirer,
-    writer: MicroserviceWriter,
+    inquirer: Inquirers.MicroserviceInquirer,
+    writer: Writers.MicroserviceWriter,
   },
   {
     id: "x:bundle",
-    inquirer: CreateBundleInquirer,
-    writer: CreateBundleWriter,
+    inquirer: Inquirers.CreateBundleInquirer,
+    writer: Writers.CreateBundleWriter,
   },
   {
     id: "x:collection",
-    inquirer: CollectionInquirer,
-    writer: CollectionWriter,
+    inquirer: Inquirers.CollectionInquirer,
+    writer: Writers.CollectionWriter,
   },
   {
     id: "x:validator",
-    inquirer: ValidatorInquirer,
-    writer: ValidatorWriter,
+    inquirer: Inquirers.ValidatorInquirer,
+    writer: Writers.ValidatorWriter,
   },
   {
     id: "x:graphql-input",
-    inquirer: GraphQLInputInquirer,
-    writer: GraphQLInputWriter,
+    inquirer: Inquirers.GraphQLInputInquirer,
+    writer: Writers.GraphQLInputWriter,
   },
   {
     id: "x:graphql-entity",
-    inquirer: GraphQLEntityInquirer,
-    writer: GraphQLEntityWriter,
+    inquirer: Inquirers.GraphQLEntityInquirer,
+    writer: Writers.GraphQLEntityWriter,
   },
 
   {
     id: "x:graphql-mutation",
-    inquirer: GraphQLMutationInquirer,
-    writer: GraphQLMutationWriter,
+    inquirer: Inquirers.GraphQLMutationInquirer,
+    writer: Writers.GraphQLMutationWriter,
   },
   {
     id: "x:graphql-query",
-    inquirer: GraphQLQueryInquirer,
-    writer: GraphQLQueryWriter,
+    inquirer: Inquirers.GraphQLQueryInquirer,
+    writer: Writers.GraphQLQueryWriter,
   },
   {
     id: "x:graphql-crud",
-    inquirer: GraphQLCRUDInquirer,
-    writer: GraphQLCRUDWriter,
+    inquirer: Inquirers.GraphQLCRUDInquirer,
+    writer: Writers.GraphQLCRUDWriter,
   },
   {
     id: "x:service",
-    inquirer: ServiceInquirer,
-    writer: ServiceWriter,
+    inquirer: Inquirers.ServiceInquirer,
+    writer: Writers.ServiceWriter,
   },
   {
     id: "x:server-route",
-    inquirer: ServerRouteInquirer,
-    writer: ServerRouteWriter,
+    inquirer: Inquirers.ServerRouteInquirer,
+    writer: Writers.ServerRouteWriter,
   },
   {
     id: "x:listener",
-    inquirer: ListenerInquirer,
-    writer: ListenerWriter,
+    inquirer: Inquirers.ListenerInquirer,
+    writer: Writers.ListenerWriter,
   },
   {
     id: "x:fixtures",
-    inquirer: FixtureInquirer,
-    writer: FixtureWriter,
+    inquirer: Inquirers.FixtureInquirer,
+    writer: Writers.FixtureWriter,
   },
   {
     id: "x:event",
-    inquirer: EventInquirer,
-    writer: EventWriter,
+    inquirer: Inquirers.EventInquirer,
+    writer: Writers.EventWriter,
   },
   {
     id: "x:exception",
-    inquirer: ExceptionInquirer,
-    writer: ExceptionWriter,
+    inquirer: Inquirers.ExceptionInquirer,
+    writer: Writers.ExceptionWriter,
   },
   {
     id: "x:collection-link",
-    inquirer: CollectionLinkInquirer,
-    writer: CollectionLinkWriter,
+    inquirer: Inquirers.CollectionLinkInquirer,
+    writer: Writers.CollectionLinkWriter,
   },
 ];
 

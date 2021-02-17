@@ -3,7 +3,7 @@ import { IGenericField, GenericFieldTypeEnum } from "../models/defs";
 
 export class ModelUtils {
   static getFieldSignatureForGraphQL(field: IGenericField) {
-    let signature = GraphQLFieldMap[field.type];
+    let signature = GraphQLFieldMap[field.type] || field.type;
     if (field.isMany) {
       signature = "[" + signature + "]";
     }
@@ -19,7 +19,7 @@ export class ModelUtils {
     if (field.isOptional) {
       fieldName = fieldName + "?";
     }
-    let signature = TSFieldMap[field.type];
+    let signature = TSFieldMap[field.type] || field.type;
     if (field.isMany) {
       signature = signature + "[]";
     }
@@ -55,10 +55,13 @@ export class ModelUtils {
 
   static getYupValidatorDecorator(field: IGenericField) {
     const aWhat = startsWithVowel(field.name) ? "an" : "a";
-    const yupType = YupFieldMap[field.type];
+    let yupType = YupFieldMap[field.type];
     const isRequired = !field.isOptional ? ".required()" : "";
 
-    return `@Is(${aWhat}.${yupType}()${isRequired})`;
+    if (yupType) {
+      yupType = "." + yupType + "()";
+    }
+    return `@Is(${aWhat}${yupType}${isRequired})`;
   }
 
   static getEnumClassName(field: IGenericField, modelClass?: string): string {

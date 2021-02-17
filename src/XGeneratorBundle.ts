@@ -7,18 +7,25 @@ import { Bundle } from "@kaviar/core";
 import commands from "./commands";
 import { execSync } from "child_process";
 import { GENERATOR_QUOTES } from "./constants";
+import { IXGeneratorBundleConfig } from "./defs";
 
-export class XGeneratorBundle extends Bundle {
+export class XGeneratorBundle extends Bundle<IXGeneratorBundleConfig> {
   dependencies = [TerminalBundle];
+
+  defaultConfig: IXGeneratorBundleConfig = {
+    supressInitialisation: false,
+  };
 
   async init() {
     const service = this.get<CommanderService>(CommanderService);
 
-    commands.forEach((command) => {
-      service.registerCommand(command);
-    });
+    if (!this.config.supressInitialisation) {
+      commands.forEach((command) => {
+        service.registerCommand(command);
+      });
 
-    this.displayWelcomeMessage();
+      this.displayWelcomeMessage();
+    }
   }
 
   public displayWelcomeMessage() {

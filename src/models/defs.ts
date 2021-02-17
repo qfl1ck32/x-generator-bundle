@@ -22,11 +22,13 @@ export interface IAvailableModel {
   importPath: string;
 }
 
-export interface IGenericField {
-  name: string;
-  type: GenericFieldTypeEnum;
+export interface IFieldBaseSignature {
+  type: GenericFieldTypeEnum | string;
   isOptional?: boolean;
   isMany?: boolean;
+}
+export interface IGenericField extends IFieldBaseSignature {
+  name: string;
   modelReferenceBundle?: string;
   enumCSVValues?: string;
 }
