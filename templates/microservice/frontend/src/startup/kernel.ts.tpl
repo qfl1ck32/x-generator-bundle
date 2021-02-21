@@ -1,5 +1,8 @@
 import { Kernel } from "@kaviar/core";
 import { XUIBundle } from "@kaviar/x-ui";
+{{# if adminMode }}
+  import { XUIAdminBundle } from "@kaviar/x-ui-admin";
+{{/ if }}
 import { UIAppBundle } from "../bundles/UIAppBundle/UIAppBundle";
 
 // All UI bundles need to be prefixed with UI
@@ -13,6 +16,9 @@ export const kernel = new Kernel({
         uri: process.env.REACT_APP_GRAPHQL_URI,
       },
     }),
+    {{# if adminMode }}
+      new XUIAdminBundle(),
+    {{/ if }}
     new UIAppBundle(),
   ],
 });

@@ -247,7 +247,7 @@ export class GenericModel {
             return {
               label,
               field: _.toUpper(_.snakeCase(label)),
-              value: _.kebabCase(label),
+              value: _.toUpper(_.snakeCase(label)),
             };
           }),
         };
