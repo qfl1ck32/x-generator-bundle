@@ -1,5 +1,5 @@
 import { XRouter } from "@kaviar/x-ui";
-import * as routeMap from "./routes";
+import * as routeMap from "./pages/routes";
 import { Bundle } from "@kaviar/core";
 
 export class UIAppBundle extends Bundle {

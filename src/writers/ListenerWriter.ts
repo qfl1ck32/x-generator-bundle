@@ -6,13 +6,14 @@ import { FSUtils } from "../utils/FSUtils";
 import * as path from "path";
 import { FSOperator } from "../utils/FSOperator";
 import { ListenerModel } from "../models/ListenerModel";
+import { XSession } from "../utils/XSession";
 
-export class ListenerWriter extends BlueprintWriter<ListenerModel> {
-  write(model: ListenerModel, session: IBlueprintWriterSession) {
+export class ListenerWriter extends BlueprintWriter {
+  write(model: ListenerModel, session: XSession) {
     const fsOperator = new FSOperator(session, model);
 
     const listenerTpls = fsOperator.getTemplatePathCreator("listener");
-    const microserviceDir = FSUtils.getNearest("microservice");
+    const microserviceDir = session.getMicroservicePath();
     const listenersDir = FSUtils.bundlePath(
       microserviceDir,
       model.bundleName,

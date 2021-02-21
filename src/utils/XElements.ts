@@ -1,12 +1,37 @@
 import { FSUtils } from "./FSUtils";
 import * as fs from "fs";
 import * as path from "path";
+import * as _ from "lodash";
 import * as fg from "fast-glob";
 
 /**
- * Thi s
+ * The XElements are the common objects we encounter in an X-Framework applications:
+ * Collections, Models, GraphQL Entities, Services, Exceptions, Events
  */
 export class XElements {
+  static emulateElement(
+    microservicePath: string,
+    bundleName: string,
+    type: XElementType,
+    identity: string
+  ) {
+    const bundlePath = path.join(
+      microservicePath,
+      "src",
+      "bundles",
+      bundleName
+    );
+
+    const relativePath = XElementsBundleRelativePaths[type](identity);
+
+    return XElements.createXElementResult(
+      relativePath,
+      type,
+      bundleName,
+      bundlePath
+    );
+  }
+
   static findElements(
     type: XElementType,
     microservicePath: string
@@ -115,6 +140,22 @@ export enum XElementType {
   GRAPHQL_INPUT = "graphql-input",
   GRAPHQL_INPUT_MODEL = "graphql-input-model",
 }
+
+export const XElementsBundleRelativePaths = {
+  [XElementType.SERVICE]: (identity) => `services/${identity}.service.ts`,
+  [XElementType.EVENT]: (identity) => `events/${identity}.event.ts`,
+  [XElementType.EXCEPTION]: (identity) => `exceptions/${identity}.exception.ts`,
+  [XElementType.LISTENER]: (identity) => `listeners/${identity}.listener.ts`,
+  [XElementType.COLLECTION]: (identity) =>
+    `collections/${identity}/${identity}.collection.ts`,
+  [XElementType.COLLECTION_MODEL]: (identity) => `collections/.model.ts`,
+  [XElementType.GRAPHQL_INPUT_MODEL]: (identity) =>
+    `services/inputs/${identity}.ts`,
+  [XElementType.GRAPHQL_INPUT]: (identity) =>
+    `graphql/inputs/${identity}/${identity}.graphql.ts`,
+  [XElementType.GRAPHQL_ENTITY]: (identity) =>
+    `graphql/entities/${identity}/${identity}.graphql.ts`,
+};
 
 export const XElementGlob = {
   [XElementType.SERVICE]: "services/**/*.service.ts",

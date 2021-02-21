@@ -1,12 +1,12 @@
-import { kernel } from "./kernel";
 import { XUIProvider } from "@kaviar/x-ui";
-import React from "react";
-import ReactDOM from "react-dom";
+import "reflect-metadata";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { kernel } from "./kernel";
+import "./styles.scss";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <XUIProvider kernel={kernel} />
-  </React.StrictMode>,
+  <XUIProvider kernel={kernel} />,
   document.getElementById("root")
 );
 

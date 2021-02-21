@@ -8,13 +8,14 @@ import * as path from "path";
 import { FSOperator } from "../utils/FSOperator";
 import { ServiceModel } from "../models/ServiceModel";
 import { EventModel } from "../models/EventModel";
+import { XSession } from "../utils/XSession";
 
-export class EventWriter extends BlueprintWriter<EventModel> {
-  write(model: EventModel, session: IBlueprintWriterSession) {
+export class EventWriter extends BlueprintWriter {
+  write(model: EventModel, session: XSession) {
     const fsOperator = new FSOperator(session, model);
 
     const serviceTpls = fsOperator.getTemplatePathCreator("event");
-    const microserviceDir = FSUtils.getNearest("microservice");
+    const microserviceDir = session.getMicroservicePath();
     const eventsDir = FSUtils.bundlePath(
       microserviceDir,
       model.bundleName,

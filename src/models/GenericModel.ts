@@ -3,8 +3,8 @@ import { ModelUtils } from "../utils/ModelUtils";
 import {
   ModelRaceEnum,
   IGenericField,
-  IAvailableModel,
   GenericFieldTypeEnum,
+  IGenericFieldSubModel,
 } from "./defs";
 
 // This model can be inquired for asking:
@@ -40,33 +40,44 @@ export class GenericModel {
     return newModel;
   }
 
-  // To think!
-  availableModels: IAvailableModel[] = [];
-
   getField(name: string): IGenericField {
     return this.fields.find((field) => field.name === name);
   }
 
   addField(field: IGenericField, first = false) {
+    // Ensure uniqueness of name
+    if (this.hasField(field.name)) {
+      throw new Error(
+        `You have already added the field with name: ${field.name}`
+      );
+    }
+
     if (first) {
-      this.fields = [...this.fields, field];
+      this.fields = [field, ...this.fields];
     } else {
       this.fields.push(field);
     }
   }
 
-  hasField(name: string) {
+  removeField(fieldName: string) {
+    this.fields = this.fields.filter((field) => field.name !== fieldName);
+  }
+
+  hasField(name: string): boolean {
     return Boolean(this.fields.find((f) => f.name === name));
   }
 
-  ensureIdField() {
+  ensureIdField(): void {
     if (!this.hasField("_id")) {
-      this.addField({
-        name: "_id",
-        isOptional: false,
-        type: GenericFieldTypeEnum.ID,
-        isMany: false,
-      });
+      this.addField(
+        {
+          name: "_id",
+          isOptional: false,
+          type: GenericFieldTypeEnum.ID,
+          isMany: false,
+        },
+        true
+      );
     }
   }
 
@@ -104,43 +115,116 @@ export class GenericModel {
     return "";
   }
 
-  get graphqlContents(): string {
+  toGraphQL = () => {
+    return this.graphqlContents(this.fields);
+  };
+
+  toGraphQLSubmodel = (model: IGenericFieldSubModel) => {
+    return this.graphqlContents(model.fields);
+  };
+
+  toTypescript = () => {
+    return this.tsContents(this.fields);
+  };
+
+  toTypescriptSubmodel = (model: IGenericFieldSubModel) => {
+    return this.tsContents(model.fields);
+  };
+
+  graphqlContents(fields: IGenericField[]): string {
     let result = "";
-    this.fields.forEach((field) => {
-      if (field.type === GenericFieldTypeEnum.ENUM) {
-        result +=
-          ModelUtils.getEnumSignatureForGraphQL(field, this.modelClass) + "\n";
-      } else {
-        result += ModelUtils.getFieldSignatureForGraphQL(field) + "\n";
-      }
-    });
+    fields
+      .filter((field) => !field.ignoreGraphQL)
+      .forEach((field) => {
+        if (field.type === GenericFieldTypeEnum.ENUM) {
+          result +=
+            ModelUtils.getEnumSignatureForGraphQL(field, this.modelClass) +
+            "\n";
+        } else {
+          result += ModelUtils.getFieldSignatureForGraphQL(field) + "\n";
+        }
+      });
 
     return result;
   }
 
-  get tsContents(): string {
+  tsContents(fields: IGenericField[]): string {
     let result = "";
-    this.fields.forEach((field) => {
-      if (this.isFieldPartOfSubmodel(field)) {
-        return;
-      }
-      if (this.yupValidation) {
-        result += ModelUtils.getYupValidatorDecorator(field) + "\n";
-      }
-      if (field.type === GenericFieldTypeEnum.ENUM) {
-        result +=
-          ModelUtils.getEnumSignatureForTS(field, this.modelClass) + "\n";
-      } else {
-        result += ModelUtils.getFieldSignatureForTS(field) + "\n";
-      }
 
-      if (this.yupValidation) {
-        // A decorator would need more space to be visibly attractive
-        result += "\n";
-      }
-    });
+    fields
+      .filter((field) => !field.ignoreTypeScript)
+      .forEach((field) => {
+        if (this.isFieldPartOfSubmodel(field)) {
+          console.error({ field });
+          throw new Error("We do not allow fields that contain a dot.");
+        }
+        if (this.yupValidation) {
+          result += ModelUtils.getYupValidatorDecorator(field) + "\n";
+        }
+        if (field.type === GenericFieldTypeEnum.ENUM) {
+          result +=
+            ModelUtils.getEnumSignatureForTS(field, this.modelClass) + "\n";
+        } else {
+          result += ModelUtils.getFieldSignatureForTS(field) + "\n";
+        }
+
+        if (this.yupValidation) {
+          // A decorator would need more space to be visibly attractive
+          result += "\n";
+        }
+      });
 
     return result;
+  }
+
+  get models(): Array<{
+    bundle?: string;
+    className: string;
+  }> {
+    return this.fields
+      .filter((field) => this.isFieldModel(field))
+      .map((field) => {
+        return {
+          className: field.type,
+          bundle: field.model?.referenceBundle,
+        };
+      });
+  }
+
+  get remoteModels(): IGenericFieldSubModel[] {
+    return this.fields
+      .filter((field) => {
+        return (
+          field.model?.storage === "outside" && field.model?.local === false
+        );
+      })
+      .map((field) => field.model);
+  }
+
+  get localModels(): IGenericFieldSubModel[] {
+    return this.fields
+      .filter((field) => {
+        return (
+          field.model?.storage === "outside" && field.model?.local === true
+        );
+      })
+      .map((field) => field.model);
+  }
+
+  get embeddedModels(): IGenericFieldSubModel[] {
+    return this.fields
+      .filter((field) => {
+        return field.model?.storage === "embed";
+      })
+      .map((field) => field.model);
+  }
+
+  /**
+   * The logic here is that if the field is not inside the GenericFieldTypeEnum it's definitely a model.
+   * @param field
+   */
+  isFieldModel(field: IGenericField): boolean {
+    return ModelUtils.isFieldModel(field);
   }
 
   get enums(): Array<{

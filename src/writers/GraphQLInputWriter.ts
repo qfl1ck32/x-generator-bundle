@@ -7,12 +7,13 @@ import * as path from "path";
 import { FSOperator } from "../utils/FSOperator";
 import { GraphQLInputModel } from "../models/GraphQLInputModel";
 import { ModelRaceEnum, GenericFieldTypeEnum } from "../models/defs";
+import { XSession } from "../utils/XSession";
 
-export class GraphQLInputWriter extends BlueprintWriter<GraphQLInputModel> {
-  write(model: GraphQLInputModel, session: IBlueprintWriterSession) {
+export class GraphQLInputWriter extends BlueprintWriter {
+  write(model: GraphQLInputModel, session: XSession) {
     const fsOperator = new FSOperator(session, model.genericModel);
 
-    const microserviceDir = FSUtils.getNearest("microservice");
+    const microserviceDir = session.getMicroservicePath();
     const bundlePath = FSUtils.bundlePath(microserviceDir, model.bundleName);
     const tpl = fsOperator.getTemplatePathCreator("model");
 

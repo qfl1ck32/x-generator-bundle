@@ -6,13 +6,14 @@ import { FSUtils } from "../utils/FSUtils";
 import * as path from "path";
 import { FSOperator } from "../utils/FSOperator";
 import { ExceptionModel } from "../models/ExceptionModel";
+import { XSession } from "../utils/XSession";
 
-export class ExceptionWriter extends BlueprintWriter<ExceptionModel> {
-  write(model: ExceptionModel, session: IBlueprintWriterSession) {
+export class ExceptionWriter extends BlueprintWriter {
+  write(model: ExceptionModel, session: XSession) {
     const fsOperator = new FSOperator(session, model);
 
     const serviceTpls = fsOperator.getTemplatePathCreator("exception");
-    const microserviceDir = FSUtils.getNearest("microservice");
+    const microserviceDir = session.getMicroservicePath();
     const exceptionsDir = FSUtils.bundlePath(
       microserviceDir,
       model.bundleName,

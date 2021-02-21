@@ -9,10 +9,11 @@ import { GraphQLQueryModel } from "../models/GraphQLQueryModel";
 import { GraphQLInputModel } from "../models/GraphQLInputModel";
 import { GraphQLInputWriter } from "./GraphQLInputWriter";
 import { XElements, XElementType } from "../utils/XElements";
+import { XSession } from "../utils/XSession";
 
-export class GraphQLQueryWriter extends BlueprintWriter<GraphQLQueryModel> {
-  write(model: GraphQLQueryModel, session: IBlueprintWriterSession) {
-    const microserviceDir = FSUtils.getNearest("microservice");
+export class GraphQLQueryWriter extends BlueprintWriter {
+  write(model: GraphQLQueryModel, session: XSession) {
+    const microserviceDir = session.getMicroservicePath();
     const bundlePath = FSUtils.bundlePath(microserviceDir, model.bundleName);
     const fsOperator = new FSOperator(session, model);
 
@@ -34,10 +35,7 @@ export class GraphQLQueryWriter extends BlueprintWriter<GraphQLQueryModel> {
       graphqlInputModel.bundleName = model.bundleName;
       graphqlInputModel.genericModel = model.inputModel;
 
-      this.getWriter<GraphQLInputModel>(GraphQLInputWriter).write(
-        graphqlInputModel,
-        session
-      );
+      this.getWriter(GraphQLInputWriter).write(graphqlInputModel, session);
 
       model.inputElement = XElements.createXElementResult(
         XElements.getRelativeInputPath(graphqlInputModel.genericModel.name), // file path

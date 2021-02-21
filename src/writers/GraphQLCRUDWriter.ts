@@ -10,10 +10,11 @@ import { ModelRaceEnum, GenericFieldTypeEnum } from "../models/defs";
 import { GenericModel } from "../models";
 import { GraphQLMutationModel } from "../models/GraphQLMutationModel";
 import { GraphQLCRUDModel } from "../models/GraphQLCRUDModel";
+import { XSession } from "../utils/XSession";
 
-export class GraphQLCRUDWriter extends BlueprintWriter<GraphQLCRUDModel> {
-  write(model: GraphQLCRUDModel, session: IBlueprintWriterSession) {
-    const microserviceDir = FSUtils.getNearest("microservice");
+export class GraphQLCRUDWriter extends BlueprintWriter {
+  write(model: GraphQLCRUDModel, session: XSession) {
+    const microserviceDir = session.getMicroservicePath();
     const bundlePath = FSUtils.bundlePath(microserviceDir, model.bundleName);
     const fsOperator = new FSOperator(session, model);
 

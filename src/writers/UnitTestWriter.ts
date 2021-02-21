@@ -12,13 +12,14 @@ import { GraphQLInputModel } from "../models/GraphQLInputModel";
 import { ModelRaceEnum } from "../models/defs";
 import { ServiceModel } from "../models/ServiceModel";
 import { UnitTestModel } from "../models/UnitTestModel";
+import { XSession } from "../utils/XSession";
 
-export class UnitTestWriter extends BlueprintWriter<UnitTestModel> {
-  write(model: UnitTestModel, session: IBlueprintWriterSession) {
+export class UnitTestWriter extends BlueprintWriter {
+  write(model: UnitTestModel, session: XSession) {
     const fsOperator = new FSOperator(session, model);
 
     const testTpls = fsOperator.getTemplatePathCreator("unit-tests");
-    const microserviceDir = FSUtils.getNearest("microservice");
+    const microserviceDir = session.getMicroservicePath();
     const bundlePath = FSUtils.bundlePath(microserviceDir, model.bundleName);
     const testsPath = path.join(bundlePath, "__tests__");
 

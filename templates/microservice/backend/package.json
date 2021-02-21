@@ -7,7 +7,7 @@
   "scripts": {
     "compile": "tsc",
     "compile:watch": "tsc -w",
-    "start:watch": "tsc -w --preserveWatchOutput & nodemon -q -w dist dist/src/index.js",
+    "start:watch": "npm run compile; tsc -w --preserveWatchOutput & nodemon -q -w dist dist/startup/index.js",
     "start:watch:debug": "nodemon --watch 'dist' dist/startup/index.js --inspect",
     "start": "node dist/startup/index.js",
     "watch": "tsc -w",
@@ -25,6 +25,7 @@
     "generate:docs": "typedoc ./src/startup/index.ts --exclude ./src/__tests__ --out typeDocs --tsconfig tsconfig.json"
   },
   "dependencies": {
+    "@babel/runtime": "7.12.5",
     "@kaviar/apollo-bundle": "^1.1.2",
     "@kaviar/apollo-security-bundle": "^1.0.1",
     "@kaviar/core": "^1.1.1",

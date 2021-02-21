@@ -25,8 +25,8 @@ export class FSUtils {
     return this.getNearest(type, path.join(starting, ".."));
   }
 
-  static getProjectName() {
-    const projectPath = this.getNearest("project");
+  static getProjectName(projectPath?: string) {
+    projectPath = projectPath ?? this.getNearest("project");
     const packageJson = fse.readJSONSync(
       path.join(projectPath, "package.json")
     );

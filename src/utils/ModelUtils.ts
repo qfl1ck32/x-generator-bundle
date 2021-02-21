@@ -3,7 +3,13 @@ import { IGenericField, GenericFieldTypeEnum } from "../models/defs";
 
 export class ModelUtils {
   static getFieldSignatureForGraphQL(field: IGenericField) {
-    let signature = GraphQLFieldMap[field.type] || field.type;
+    let signature = GraphQLFieldMap[field.type];
+    if (!signature) {
+      signature =
+        field.type === GenericFieldTypeEnum.MODEL
+          ? field.model?.name
+          : field.type;
+    }
     if (field.isMany) {
       signature = "[" + signature + "]";
     }
@@ -15,11 +21,29 @@ export class ModelUtils {
   }
 
   static getFieldSignatureForTS(field: IGenericField) {
+    let signature;
     let fieldName = field.name;
+
+    if (this.isFieldModel(field)) {
+      if (field.model?.storage === "embed") {
+        signature = field.model.fields
+          .map((field) => this.getFieldSignatureForTS(field))
+          .join("\n");
+        signature = `{${signature}}`;
+      } else {
+        signature =
+          field.type === GenericFieldTypeEnum.MODEL
+            ? field.model?.name
+            : field.type;
+      }
+    } else {
+      signature = TSFieldMap[field.type];
+    }
+
     if (field.isOptional) {
       fieldName = fieldName + "?";
     }
-    let signature = TSFieldMap[field.type] || field.type;
+
     if (field.isMany) {
       signature = signature + "[]";
     }
@@ -54,6 +78,10 @@ export class ModelUtils {
   }
 
   static getYupValidatorDecorator(field: IGenericField) {
+    if (this.isFieldModel(field)) {
+      return "";
+    }
+
     const aWhat = startsWithVowel(field.name) ? "an" : "a";
     let yupType = YupFieldMap[field.type];
     const isRequired = !field.isOptional ? ".required()" : "";
@@ -66,6 +94,13 @@ export class ModelUtils {
 
   static getEnumClassName(field: IGenericField, modelClass?: string): string {
     return modelClass + _.capitalize(field.name);
+  }
+
+  static isFieldModel(field: IGenericField) {
+    return (
+      field.type === GenericFieldTypeEnum.MODEL ||
+      !PRIMITIVES.includes(field.type as GenericFieldTypeEnum)
+    );
   }
 }
 

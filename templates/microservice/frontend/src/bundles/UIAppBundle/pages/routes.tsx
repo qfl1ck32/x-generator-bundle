@@ -1,5 +1,5 @@
 import { IRoute } from "@kaviar/x-ui";
-import { HomePage } from "./pages/Home.page";
+import { HomePage } from "./Home/Home.page";
 
 export const HOME_PAGE: IRoute = {
   path: "/",

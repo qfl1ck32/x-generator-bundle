@@ -3,11 +3,14 @@ import { IXElementResult, XElements, XElementType } from "../utils/XElements";
 import { ModelRaceEnum } from "./defs";
 import * as path from "path";
 import * as _ from "lodash";
+import { EJSON } from "@kaviar/ejson";
 
 export class FixtureModel {
   bundleName: string;
   collectionElement: IXElementResult;
   fixtureName: string;
+  dataMapMode: boolean = false;
+  dataMap: { [mongoDBCollectionName: string]: any[] };
 
   // Representing the path of the fixture
   targetPath: string;
@@ -27,6 +30,10 @@ export class FixtureModel {
   get importCollectionLine() {
     // import { A } from "../A.collection.js"
     return this.createImportLine(this.collectionElement, this.targetPath);
+  }
+
+  get dataMapStringified() {
+    return EJSON.stringify(this.dataMap);
   }
 
   createImportLine(where: IXElementResult, fromPath) {

@@ -9,15 +9,13 @@ import {
   printTypeNode,
   printWithComments,
 } from "@graphql-tools/merge";
+import { XSession } from "./XSession";
 
 const TPL_EXTENSION = ".tpl";
 const TEMPLATES_DIR = __dirname + "/../../templates";
 
 export class FSOperator {
-  constructor(
-    public readonly session: IBlueprintWriterSession,
-    public readonly model: any
-  ) {}
+  constructor(public readonly session: XSession, public readonly model: any) {}
 
   add(paths: string | string[], fn) {
     this.session.addOperation({
@@ -205,6 +203,9 @@ export class FSOperator {
     const files = fs.readdirSync(src);
 
     files.forEach((file) => {
+      if (file === "node_modules") {
+        return;
+      }
       const filePath = path.join(src, file);
       let stat = fs.lstatSync(filePath);
       if (stat.isFile()) {

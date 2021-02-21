@@ -8,10 +8,11 @@ import { FSOperator } from "../utils/FSOperator";
 import { CollectionLinkModel } from "../models/CollectionLinkModel";
 import { ValidatorModel } from "../models/ValidatorModel";
 import { YupFieldMap } from "../utils/ModelUtils";
+import { XSession } from "../utils/XSession";
 
-export class ValidatorWriter extends BlueprintWriter<ValidatorModel> {
-  write(model: ValidatorModel, session: IBlueprintWriterSession) {
-    const microserviceDir = FSUtils.getNearest("microservice");
+export class ValidatorWriter extends BlueprintWriter {
+  write(model: ValidatorModel, session: XSession) {
+    const microserviceDir = session.getMicroservicePath();
     const fsOperator = new FSOperator(session, model);
     const validatorTpls = FSUtils.getTemplatePathCreator("validator");
 

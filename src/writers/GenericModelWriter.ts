@@ -7,9 +7,10 @@ import { FSUtils } from "../utils/FSUtils";
 import * as path from "path";
 import { FSOperator } from "../utils/FSOperator";
 import { CollectionModel } from "../models/CollectionModel";
+import { XSession } from "../utils/XSession";
 
-export class GenericModelWriter extends BlueprintWriter<GenericModel> {
-  write(model: GenericModel, session: IBlueprintWriterSession) {
+export class GenericModelWriter extends BlueprintWriter {
+  write(model: GenericModel, session: XSession) {
     const modelOperator = new FSOperator(session, model);
     const modelTpls = FSUtils.getTemplatePathCreator("model");
 

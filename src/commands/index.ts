@@ -1,10 +1,11 @@
 import { ICommand } from "@kaviar/terminal-bundle";
 import * as Inquirers from "../inquirers";
 import * as Writers from "../writers";
+import { XSession } from "../utils/XSession";
 
 const commands: ICommand[] = [
   {
-    id: "x-cell:generate",
+    id: "x:project",
     inquirer: Inquirers.ProjectInquirer,
     writer: Writers.ProjectWriter,
   },
@@ -90,5 +91,11 @@ const commands: ICommand[] = [
     writer: Writers.CollectionLinkWriter,
   },
 ];
+
+commands.map((command) => {
+  command.sessionFactory = (container) => {
+    return container.get(XSession);
+  };
+});
 
 export default commands;

@@ -6,16 +6,17 @@ import { MicroserviceModel, CreateBundleModel } from "../models";
 import { FSUtils } from "../utils/FSUtils";
 import * as path from "path";
 import { FSOperator } from "../utils/FSOperator";
+import { XSession } from "../utils/XSession";
 
-export class CreateBundleWriter extends BlueprintWriter<CreateBundleModel> {
-  write(model: CreateBundleModel, session: IBlueprintWriterSession) {
-    const microserviceDir = FSUtils.getNearest("microservice");
+export class CreateBundleWriter extends BlueprintWriter {
+  write(model: CreateBundleModel, session: XSession) {
+    const microserviceDir = session.getMicroservicePath();
     writeNewBundle(session, model, microserviceDir);
   }
 }
 
 export function writeNewBundle(
-  session: IBlueprintWriterSession,
+  session: XSession,
   model: CreateBundleModel,
   microserviceDir: any
 ) {
@@ -72,7 +73,7 @@ export function writeNewBundle(
     `import "./{{ bundleName }}"`
   );
 
-  session.afterCommit(() => {
+  session.afterCommitInstruction(() => {
     console.log(`Bundle "${model.bundleName}" has been created.`);
   });
 }

@@ -12,18 +12,19 @@ import * as path from "path";
 import { FSOperator } from "../utils/FSOperator";
 import { writeNewBundle } from "./CreateBundleWriter";
 import { NearestElementNotFoundException } from "../exceptions/NearestElementNotFound.exception";
+import { XSession } from "../utils/XSession";
 
-export class MicroserviceWriter extends BlueprintWriter<MicroserviceModel> {
-  write(model: MicroserviceModel, session: IBlueprintWriterSession) {
+export class MicroserviceWriter extends BlueprintWriter {
+  write(model: MicroserviceModel, session: XSession) {
     const fsOperator = new FSOperator(session, model);
     const tpl = fsOperator.getTemplatePathCreator("microservice");
 
     // We can create a microservice that is not part of a project
     let microserviceDir;
     try {
-      const projectDir = FSUtils.getNearest("project");
+      const projectDir = session.getProjectPath();
       microserviceDir = path.join(projectDir, "microservices", model.name);
-      model.projectName = FSUtils.getProjectName();
+      model.projectName = session.getProjectName();
     } catch (e) {
       console.log({ e });
       if (e instanceof NearestElementNotFoundException) {
@@ -44,7 +45,7 @@ export class MicroserviceWriter extends BlueprintWriter<MicroserviceModel> {
       writeNewBundle(session, bundleModel, microserviceDir);
     }
 
-    session.afterCommit(() => {
+    session.afterCommitInstruction(() => {
       console.log("Your microservice is now ready!");
       if (model.type === MicroserviceTypeEnum.BACKEND) {
         console.log(`cd ${model.name} ; npm update ; npm start:watch`);

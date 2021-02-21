@@ -12,13 +12,14 @@ import { GraphQLInputModel } from "../models/GraphQLInputModel";
 import { ModelRaceEnum } from "../models/defs";
 import { ServiceModel } from "../models/ServiceModel";
 import { ServerRouteModel } from "../models/ServerRouteModel";
+import { XSession } from "../utils/XSession";
 
-export class ServerRouteWriter extends BlueprintWriter<ServerRouteModel> {
-  write(model: ServerRouteModel, session: IBlueprintWriterSession) {
+export class ServerRouteWriter extends BlueprintWriter {
+  write(model: ServerRouteModel, session: XSession) {
     const fsOperator = new FSOperator(session, model);
 
     const serverRouteTpls = fsOperator.getTemplatePathCreator("server-routes");
-    const microserviceDir = FSUtils.getNearest("microservice");
+    const microserviceDir = session.getMicroservicePath();
     const serverRoutesDir = FSUtils.bundlePath(
       microserviceDir,
       model.bundleName,

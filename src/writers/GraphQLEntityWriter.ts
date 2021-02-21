@@ -8,10 +8,11 @@ import { FSOperator } from "../utils/FSOperator";
 import { GraphQLInputModel } from "../models/GraphQLInputModel";
 import { ModelRaceEnum, GenericFieldTypeEnum } from "../models/defs";
 import { GenericModel } from "../models";
+import { XSession } from "../utils/XSession";
 
-export class GraphQLEntityWriter extends BlueprintWriter<GraphQLInputModel> {
-  write(model: GraphQLInputModel, session: IBlueprintWriterSession) {
-    const microserviceDir = FSUtils.getNearest("microservice");
+export class GraphQLEntityWriter extends BlueprintWriter {
+  write(model: GraphQLInputModel, session: XSession) {
+    const microserviceDir = session.getMicroservicePath();
     const genericModel = model.genericModel;
 
     if (genericModel.fields.length === 0) {
@@ -33,7 +34,7 @@ export class GraphQLEntityWriter extends BlueprintWriter<GraphQLInputModel> {
   }
 
   createGraphQLEntity(
-    session: IBlueprintWriterSession,
+    session: XSession,
     microserviceDir: string,
     bundleName: string,
     model: GenericModel

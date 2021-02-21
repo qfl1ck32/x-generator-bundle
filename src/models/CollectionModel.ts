@@ -12,7 +12,7 @@ export class CollectionModel {
   modelDefinition: GenericModel;
   validateAgainstModel: boolean;
 
-  createEntity: string;
+  createEntity: boolean;
   isEntitySameAsModel: boolean;
   entityDefinition: GenericModel;
 

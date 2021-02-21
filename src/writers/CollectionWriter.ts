@@ -11,14 +11,15 @@ import { GraphQLEntityWriter } from "./GraphQLEntityWriter";
 import { GraphQLInputModel } from "../models/GraphQLInputModel";
 import { ModelRaceEnum } from "../models/defs";
 import { GenericModelWriter } from "./GenericModelWriter";
+import { XSession } from "../utils/XSession";
 
-export class CollectionWriter extends BlueprintWriter<CollectionModel> {
-  write(model: CollectionModel, session: IBlueprintWriterSession) {
+export class CollectionWriter extends BlueprintWriter {
+  write(model: CollectionModel, session: XSession) {
     const fsOperator = new FSOperator(session, model);
 
     const collectionTpls = fsOperator.getTemplatePathCreator("collection");
     const modelTpls = fsOperator.getTemplatePathCreator("model");
-    const microserviceDir = FSUtils.getNearest("microservice");
+    const microserviceDir = session.getMicroservicePath();
     const collectionsDir = FSUtils.bundlePath(
       microserviceDir,
       model.bundleName,
@@ -39,13 +40,10 @@ export class CollectionWriter extends BlueprintWriter<CollectionModel> {
       `${model.modelDefinition.name}.model.ts`
     );
 
-    this.getWriter<GenericModel>(GenericModelWriter).write(
-      model.modelDefinition,
-      session
-    );
+    this.getWriter(GenericModelWriter).write(model.modelDefinition, session);
 
     if (model.createEntity) {
-      this.getWriter<GraphQLInputModel>(GraphQLEntityWriter).write(
+      this.getWriter(GraphQLEntityWriter).write(
         {
           bundleName: model.bundleName,
           genericModel: GenericModel.clone(model.modelDefinition),

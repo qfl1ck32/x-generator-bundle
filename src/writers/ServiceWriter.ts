@@ -14,13 +14,14 @@ import { ServiceModel } from "../models/ServiceModel";
 import { UnitTestModel } from "../models/UnitTestModel";
 import { XElements, XElementType } from "../utils/XElements";
 import { UnitTestWriter } from "./UnitTestWriter";
+import { XSession } from "../utils/XSession";
 
-export class ServiceWriter extends BlueprintWriter<ServiceModel> {
-  write(model: ServiceModel, session: IBlueprintWriterSession) {
+export class ServiceWriter extends BlueprintWriter {
+  write(model: ServiceModel, session: XSession) {
     const fsOperator = new FSOperator(session, model);
 
     const serviceTpls = fsOperator.getTemplatePathCreator("service");
-    const microserviceDir = FSUtils.getNearest("microservice");
+    const microserviceDir = session.getMicroservicePath();
     const bundlePath = FSUtils.bundlePath(microserviceDir, model.bundleName);
     const servicesDir = path.join(bundlePath, "services");
 

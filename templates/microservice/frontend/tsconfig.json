@@ -16,7 +16,11 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "paths": {
+      "@bundles/*": ["./src/bundles/*"],
+      "@root/*": ["./src/*"]
+    }
   },
   "include": ["src"]
 }

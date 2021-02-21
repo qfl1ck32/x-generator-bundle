@@ -1,7 +1,7 @@
 export default /* GraphQL */`
   type Query {
-    {{ crudName }}FindOne(query: QueryInput!): {{ entityType }}
-    {{ crudName }}Find(query: QueryInput!): [{{ entityType }}]!
+    {{ crudName }}FindOne(query: QueryInput): {{ entityType }}
+    {{ crudName }}Find(query: QueryInput): [{{ entityType }}]!
     {{ crudName }}Count(filters: EJSON!): Int!
   }
 
