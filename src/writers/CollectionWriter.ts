@@ -59,8 +59,11 @@ export class CollectionWriter extends BlueprintWriter {
 
     fsOperator.sessionAppendFile(
       path.join(collectionDir, "index.ts"),
-      `export * from "./{{ collectionNameUpper }}.collection"
-      export * from "./{{ collectionModelClass }}.model"`
+      `export * from "./{{ collectionNameUpper }}.collection"`
+    );
+    fsOperator.sessionAppendFile(
+      path.join(collectionDir, "index.ts"),
+      `export * from "./{{ collectionModelClass }}.model"`
     );
   }
 }
