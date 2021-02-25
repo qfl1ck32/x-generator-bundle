@@ -1,4 +1,7 @@
 import { Collection, Behaviors } from "@kaviar/mongo-bundle";
+{{# if hasSubscriptions }}
+import { Behaviors as XBehaviors } from "@kaviar/x-bundle";
+{{/ if }}
 import * as links from './{{ collectionNameUpper }}.links';
 import * as reducers from './{{ collectionNameUpper }}.reducers';
 import { {{ collectionModelClass }} } from "./{{ collectionModelClass }}.model";
@@ -26,6 +29,10 @@ export class {{ collectionClass }} extends Collection<{{ collectionModelClass }}
 
     {{# if validationModel }}
     Behaviors.Validate({ model: {{ collectionModelClass }} }),
+    {{/ if }}
+
+    {{# if hasSubscriptions }}
+      XBehaviors.Live(),
     {{/ if }}
   ]
   {{/ if }}

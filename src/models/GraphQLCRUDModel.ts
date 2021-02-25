@@ -11,6 +11,7 @@ export class GraphQLCRUDModel {
   checkLoggedIn: boolean;
   permissionCheck: boolean;
   resolverTargetPath: string;
+  hasSubscriptions: boolean = false;
 
   get collectionClass() {
     return this.collectionElement.identityName;

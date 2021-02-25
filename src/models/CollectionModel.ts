@@ -16,6 +16,8 @@ export class CollectionModel {
   isEntitySameAsModel: boolean;
   entityDefinition: GenericModel;
 
+  hasSubscriptions: boolean = false;
+
   constructor() {}
 
   // links: ILink;
@@ -25,6 +27,7 @@ export class CollectionModel {
 
   get containsBehaviors() {
     return (
+      this.hasSubscriptions ||
       this.isTimestampable ||
       this.isSoftdeletable ||
       this.isBlameable ||

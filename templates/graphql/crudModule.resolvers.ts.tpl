@@ -47,5 +47,21 @@ export default {
         X.ToNovaByResultID({{ collectionClass }})
       ]
     }
-  ]
+  ],
+  {{# if hasSubscriptions }}
+    Subscription: {
+      {{ crudName }}Subscription: {
+        resolve: (payload) => payload,
+        subscribe: [
+          X.ToSubscription({{ collectionClass }}),
+        ]
+      },
+      {{ crudName }}SubscriptionCount: {
+        resolve: (payload) => payload,
+        subscribe: [
+          X.ToSubscriptionCount({{ collectionClass }}),
+        ]
+      },
+    },
+  {{/ if }}
 }

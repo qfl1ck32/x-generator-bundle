@@ -10,4 +10,11 @@ export default /* GraphQL */`
     {{ crudName }}UpdateOne(_id: ObjectId!, modifier: EJSON!): {{ entityType }}!
     {{ crudName }}DeleteOne(_id: ObjectId!): Boolean
   }
+
+  {{# if hasSubscriptions }}
+    type Subscription {
+      {{ crudName }}Subscription(body: EJSON): SubscriptionEvent
+      {{ crudName }}SubscriptionCount(filters: EJSON): SubscriptionCountEvent
+    }
+  {{/ if }}
 `
