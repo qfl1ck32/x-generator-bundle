@@ -24,7 +24,8 @@ export class {{ modelClass }} {
 }
 
 {{# each localModels }}
-export class {{ name }} {
+class {{ name }} {
   {{ @root.toTypescriptSubmodel this }}
 }
+
 {{/ each }}

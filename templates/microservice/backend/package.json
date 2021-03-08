@@ -7,9 +7,8 @@
   "scripts": {
     "compile": "tsc",
     "compile:watch": "tsc -w",
-    "start:watch": "npm run compile; tsc -w --preserveWatchOutput & nodemon -q -w dist dist/startup/index.js",
+    "start": "npm run compile; tsc -w --preserveWatchOutput & nodemon -q -w dist dist/startup/index.js",
     "start:watch:debug": "nodemon --watch 'dist' dist/startup/index.js --inspect",
-    "start": "node dist/startup/index.js",
     "watch": "tsc -w",
     "pretest": "npm run compile",
     "lint": "eslint './src/**/*.ts'",

@@ -9,6 +9,14 @@ import {
 
 // This model can be inquired for asking:
 // GraphQL Types, Inputs, Model Classes
+
+export type ToContentOptions = {
+  enumPrefix?: string;
+};
+
+const ToContentDefaults = {
+  enumPrefix: "",
+};
 export class GenericModel {
   race: ModelRaceEnum;
   name: string;
@@ -120,7 +128,9 @@ export class GenericModel {
   };
 
   toGraphQLSubmodel = (model: IGenericFieldSubModel) => {
-    return this.graphqlContents(model.fields);
+    return this.graphqlContents(model.fields, {
+      enumPrefix: model.name,
+    });
   };
 
   toTypescript = () => {
@@ -128,18 +138,25 @@ export class GenericModel {
   };
 
   toTypescriptSubmodel = (model: IGenericFieldSubModel) => {
-    return this.tsContents(model.fields);
+    return this.tsContents(model.fields, {
+      enumPrefix: model.name,
+    });
   };
 
-  graphqlContents(fields: IGenericField[]): string {
+  graphqlContents(
+    fields: IGenericField[],
+    options: ToContentOptions = ToContentDefaults
+  ): string {
     let result = "";
     fields
       .filter((field) => !field.ignoreGraphQL)
       .forEach((field) => {
         if (field.type === GenericFieldTypeEnum.ENUM) {
           result +=
-            ModelUtils.getEnumSignatureForGraphQL(field, this.modelClass) +
-            "\n";
+            ModelUtils.getEnumSignatureForGraphQL(
+              field,
+              options.enumPrefix ? options.enumPrefix : this.modelClass
+            ) + "\n";
         } else {
           result += ModelUtils.getFieldSignatureForGraphQL(field) + "\n";
         }
@@ -148,7 +165,10 @@ export class GenericModel {
     return result;
   }
 
-  tsContents(fields: IGenericField[]): string {
+  tsContents(
+    fields: IGenericField[],
+    options: ToContentOptions = ToContentDefaults
+  ): string {
     let result = "";
 
     fields
@@ -163,7 +183,10 @@ export class GenericModel {
         }
         if (field.type === GenericFieldTypeEnum.ENUM) {
           result +=
-            ModelUtils.getEnumSignatureForTS(field, this.modelClass) + "\n";
+            ModelUtils.getEnumSignatureForTS(
+              field,
+              options.enumPrefix ? options.enumPrefix : this.modelClass
+            ) + "\n";
         } else {
           result += ModelUtils.getFieldSignatureForTS(field) + "\n";
         }
@@ -235,25 +258,48 @@ export class GenericModel {
       value: string;
     }>;
   }> {
+    // First level enums
+    const result = [];
     const enums = this.fields
       .filter((field) => {
         return field.type === GenericFieldTypeEnum.ENUM;
       })
-      .map((field) => {
-        return {
+      .forEach((field) => {
+        result.push({
           className: ModelUtils.getEnumClassName(field, this.modelClass),
-          elements: field.enumCSVValues.split(",").map((label) => {
-            label = label.trim();
-            return {
-              label,
-              field: _.toUpper(_.snakeCase(label)),
-              value: _.toUpper(_.snakeCase(label)),
-            };
-          }),
-        };
+          elements: this.getEnumElements(field),
+        });
       });
 
-    return enums;
+    // Second level enums
+    this.fields.forEach((field) => {
+      if (field.model && field.model.fields) {
+        field.model.fields.forEach((childField) => {
+          if (childField.type === GenericFieldTypeEnum.ENUM) {
+            result.push({
+              className: ModelUtils.getEnumClassName(
+                childField,
+                this.modelClass + _.upperFirst(field.name)
+              ),
+              elements: this.getEnumElements(childField),
+            });
+          }
+        });
+      }
+    });
+
+    return result;
+  }
+
+  getEnumElements(field: IGenericField) {
+    return field.enumCSVValues.split(",").map((label) => {
+      label = label.trim();
+      return {
+        label,
+        field: _.toUpper(_.snakeCase(label)),
+        value: _.toUpper(_.snakeCase(label)),
+      };
+    });
   }
 
   /**

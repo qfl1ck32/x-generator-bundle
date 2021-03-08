@@ -30,5 +30,10 @@ export class GraphQLCRUDInquirer extends Inquirer<GraphQLCRUDModel> {
       "graphqlEntityElement",
       XElementType.GRAPHQL_ENTITY
     );
+
+    await this.prompt(
+      "hasSubscriptions",
+      Shortcuts.confirm("Enable subscriptions?", true)
+    );
   }
 }
