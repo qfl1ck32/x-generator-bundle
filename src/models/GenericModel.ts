@@ -215,13 +215,24 @@ export class GenericModel {
   }
 
   get remoteModels(): IGenericFieldSubModel[] {
-    return this.fields
+    const result = this.fields
       .filter((field) => {
         return (
           field.model?.storage === "outside" && field.model?.local === false
         );
       })
-      .map((field) => field.model);
+      .map((field) => {
+        return field.model;
+      })
+      .filter((model) => {
+        return model.name !== this.modelClass;
+      })
+      // uniqueness
+      .filter((value, index, self) => {
+        return self.map((v) => v.name).indexOf(value.name) === index;
+      });
+
+    return result;
   }
 
   get localModels(): IGenericFieldSubModel[] {
@@ -234,12 +245,17 @@ export class GenericModel {
       .map((field) => field.model);
   }
 
+  /**
+   * TODO: make recursive so it goes deep otherwise it will fail.
+   */
   get embeddedModels(): IGenericFieldSubModel[] {
-    return this.fields
+    const result = this.fields
       .filter((field) => {
         return field.model?.storage === "embed";
       })
       .map((field) => field.model);
+
+    return result;
   }
 
   /**

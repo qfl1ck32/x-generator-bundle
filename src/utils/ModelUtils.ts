@@ -40,12 +40,12 @@ export class ModelUtils {
       signature = TSFieldMap[field.type];
     }
 
-    if (field.isOptional) {
-      fieldName = fieldName + "?";
-    }
-
     if (field.isMany) {
       signature = signature + "[]";
+    }
+
+    if (field.isOptional) {
+      fieldName = fieldName + "?";
     }
 
     return `${fieldName}: ${signature};`;
@@ -57,10 +57,17 @@ export class ModelUtils {
    */
   static getEnumSignatureForTS(field: IGenericField, modelClass?: string) {
     let fieldName = field.name;
-    if (field.isOptional) {
-      fieldName = fieldName + "?";
+    let signature = ModelUtils.getEnumClassName(field, modelClass);
+
+    if (field.isMany) {
+      signature += "[]";
     }
-    return `${fieldName}: ${ModelUtils.getEnumClassName(field, modelClass)}`;
+
+    if (field.isOptional) {
+      fieldName += "?";
+    }
+
+    return `${fieldName}: ${signature}`;
   }
 
   /**
@@ -69,12 +76,15 @@ export class ModelUtils {
    */
   static getEnumSignatureForGraphQL(field: IGenericField, modelClass?: string) {
     let fieldName = field.name;
-    let fieldType = ModelUtils.getEnumClassName(field, modelClass);
+    let signature = ModelUtils.getEnumClassName(field, modelClass);
+    if (field.isMany) {
+      signature = `[${signature}]`;
+    }
     if (!field.isOptional) {
-      fieldType = fieldType + "!";
+      signature = signature + "!";
     }
 
-    return `${fieldName}: ${ModelUtils.getEnumClassName(field, modelClass)}`;
+    return `${fieldName}: ${signature}`;
   }
 
   static getYupValidatorDecorator(field: IGenericField) {
@@ -93,7 +103,7 @@ export class ModelUtils {
   }
 
   static getEnumClassName(field: IGenericField, modelClass?: string): string {
-    return modelClass + _.capitalize(field.name);
+    return modelClass + _.upperFirst(field.name);
   }
 
   static isFieldModel(field: IGenericField) {

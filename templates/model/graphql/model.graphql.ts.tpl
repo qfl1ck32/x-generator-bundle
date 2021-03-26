@@ -8,6 +8,7 @@ export default /* GraphQL */ `
       {{ @root.toGraphQLSubmodel this }}
     }
   {{/ each }}
+  
   {{# each embeddedModels }}
     type {{ name }} {
       {{ @root.toGraphQLSubmodel this }}
