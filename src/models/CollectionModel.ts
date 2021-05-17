@@ -18,6 +18,12 @@ export class CollectionModel {
 
   hasSubscriptions: boolean = false;
 
+  /**
+   * This refers when the collection extends something else (We use it for Users to extend from SecurityMongoBundle)
+   */
+  customCollectionImport: string; // "@kaviar/security-mongo-bundle";
+  customCollectionName: string; // "UsersCollection"
+
   constructor() {}
 
   // links: ILink;

@@ -50,7 +50,7 @@ export class MicroserviceWriter extends BlueprintWriter {
       if (model.type === MicroserviceTypeEnum.BACKEND) {
         console.log(`cd ${model.name} ; npm update ; npm start:watch`);
       }
-      if (model.type === MicroserviceTypeEnum.BACKEND) {
+      if (model.type === MicroserviceTypeEnum.FRONTEND) {
         console.log(`cd ${model.name} ; npm update ; npm start`);
       }
     });

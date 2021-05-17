@@ -5,8 +5,15 @@ import { Behaviors as XBehaviors } from "@kaviar/x-bundle";
 import * as links from './{{ collectionNameUpper }}.links';
 import * as reducers from './{{ collectionNameUpper }}.reducers';
 import { {{ collectionModelClass }} } from "./{{ collectionModelClass }}.model";
+{{# if customCollectionImport }}
+import { {{ customCollectionName }} as BaseCollection } from "{{ customCollectionImport }}";
+{{/ if }}
 
-export class {{ collectionClass }} extends Collection<{{ collectionModelClass }}> {
+{{# if customCollectionImport }}
+  export class {{ collectionClass }} extends Collection<{{ collectionModelClass }}> {
+{{ else }}
+  export class {{ collectionClass }} extends BaseCollection<{{ collectionModelClass }}> {
+{{/ if }}
   static collectionName = "{{ collectionName }}"
   static model = {{ collectionModelClass }}
 

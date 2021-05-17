@@ -8,6 +8,10 @@ export class MicroserviceModel {
   adminMode: boolean;
 }
 
+export class BackendMicroserviceModel extends MicroserviceModel {
+  hasUsers: boolean;
+}
+
 export enum MicroserviceTypeEnum {
   BACKEND = "backend",
   FRONTEND = "frontend",
