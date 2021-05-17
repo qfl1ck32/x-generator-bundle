@@ -33,5 +33,12 @@ export class MicroserviceInquirer extends Inquirer<MicroserviceModel> {
         Object.values(MicroserviceTypeEnum)
       )
     );
+
+    if (this.model.type === MicroserviceTypeEnum.BACKEND) {
+      await this.prompt(
+        "hasUsers",
+        Shortcuts.confirm("Do you want to integrate a custom user collection?")
+      );
+    }
   }
 }

@@ -6,6 +6,7 @@ import {
   MicroserviceModel,
   MicroserviceTypeEnum,
   CreateBundleModel,
+  BackendMicroserviceModel,
 } from "../models";
 import { FSUtils } from "../utils/FSUtils";
 import * as path from "path";
@@ -15,7 +16,10 @@ import { NearestElementNotFoundException } from "../exceptions/NearestElementNot
 import { XSession } from "../utils/XSession";
 
 export class MicroserviceWriter extends BlueprintWriter {
-  write(model: MicroserviceModel, session: XSession) {
+  write(
+    model: MicroserviceModel | BackendMicroserviceModel,
+    session: XSession
+  ) {
     const fsOperator = new FSOperator(session, model);
     const tpl = fsOperator.getTemplatePathCreator("microservice");
 
