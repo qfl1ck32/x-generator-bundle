@@ -43,8 +43,7 @@ export default {
       ],
       {{ crudName }}DeleteOne: [
         X.CheckDocumentExists({{ collectionClass }}),
-        X.ToDocumentDeleteByID({{ collectionClass }}),
-        X.ToNovaByResultID({{ collectionClass }})
+        X.ToDocumentDeleteByID({{ collectionClass }})
       ]
     }
   ],
