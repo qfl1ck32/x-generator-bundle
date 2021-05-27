@@ -12,7 +12,7 @@
 <br />
 <br />
 
-The X-way generator is a command-line utility which enables you to write code the X-way with incredible speed bost provided by the X-way Bundle by Kaviar.
+The X-Framework generator is a command-line utility which enables you to write code the X-Framework with incredible speed bost provided by the X-Framework Bundle by Kaviar.
 
 ## Install
 
@@ -20,7 +20,7 @@ The X-way generator is a command-line utility which enables you to write code th
 npm install -g @kaviar/x-generator-bundle
 ```
 
-Just type `x` and start coding the X-way:
+Just type `x` and start coding the X-Framework:
 
 ```bash
 x

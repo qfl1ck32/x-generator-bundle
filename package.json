@@ -1,7 +1,7 @@
 {
   "name": "@kaviar/x",
   "version": "1.0.12",
-  "description": "Scaffolding tool for Kaviar Framework using X-way.",
+  "description": "Scaffolding tool for Kaviar Framework using X-Framework.",
   "main": "dist/index.js",
   "repository": {
     "type": "git",

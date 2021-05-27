@@ -10,9 +10,9 @@ import { {{ customCollectionName }} as BaseCollection } from "{{ customCollectio
 {{/ if }}
 
 {{# if customCollectionImport }}
-  export class {{ collectionClass }} extends Collection<{{ collectionModelClass }}> {
-{{ else }}
   export class {{ collectionClass }} extends BaseCollection<{{ collectionModelClass }}> {
+{{ else }}
+  export class {{ collectionClass }} extends Collection<{{ collectionModelClass }}> {
 {{/ if }}
   static collectionName = "{{ collectionName }}"
   static model = {{ collectionModelClass }}

@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "description": "Backend microservices generated with X-way by Kaviar",
+  "description": "Backend microservices generated with X-Framework by Kaviar",
   "version": "1.0.0",
   "private": true,
   "main": "dist/startup/index.js",

@@ -5,7 +5,9 @@ export interface IProjectConstructorOptions {
 
 export class Project {
   name: string;
-  microservices: Microservice[] = [];
+  api: BackendMicroservice;
+  frontends: FrontendMicroservice;
+  // frontend: IFrontend
 
   constructor(options: IProjectConstructorOptions) {
     Object.assign(this, options);
@@ -28,7 +30,9 @@ export interface IBackendConstructorOptions {
   };
 }
 
-export class BackendMicroservice extends Microservice {
+export class BackendMicroservice
+  extends Microservice
+  implements IBackendConstructorOptions {
   constructor(options: Partial<IBackendConstructorOptions>) {
     super();
     Object.assign(this, options);
@@ -49,10 +53,10 @@ export class FrontendMicroservice extends Microservice {
 
 type ICollection = {
   name: string;
-  behaviors: string[];
-  relations: CollectionRelation[];
+  behaviors?: string[];
+  relations?: CollectionRelation[];
   fields: Field[];
-  graphql: boolean;
+  graphql?: boolean;
 };
 
 export class Collection implements ICollection {
@@ -60,7 +64,7 @@ export class Collection implements ICollection {
   behaviors: string[] = [];
   fields: Field[] = [];
   relations: CollectionRelation[] = [];
-  graphql: boolean = true;
+  graphqlEntity: boolean = true;
 
   constructor(options: ICollection) {
     Object.assign(this, options);

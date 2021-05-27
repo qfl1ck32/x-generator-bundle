@@ -1,4 +1,4 @@
-The X-way generator is a command-line utility which enables you to write code the X-way with incredible speed bost provided by the X-way Bundle by Kaviar.
+The X-Framework generator is a command-line utility which enables you to write code the X-Framework with incredible speed bost provided by the X-Framework Bundle by Kaviar.
 
 ## Install
 
@@ -13,7 +13,7 @@ We regard a project as a set of microservices that interract together. For examp
 
 ## x:microservice
 
-We can create a microservice (currently only works with backend only) using the **X-way** recommended folder structure.
+We can create a microservice (currently only works with backend only) using the **X-Framework** recommended folder structure.
 
 ## x:bundle
 
