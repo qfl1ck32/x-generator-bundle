@@ -1,1 +1,1 @@
-export * from "./Home/routes";
+export default null;

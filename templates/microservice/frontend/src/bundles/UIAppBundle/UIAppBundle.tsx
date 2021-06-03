@@ -10,6 +10,5 @@ export class UIAppBundle extends Bundle {
     const xuiBundle = this.container.get(XUIBundle);
 
     router.add(Routes);
-    xuiBundle.updateComponents(ComponentOverrides);
   }
 }

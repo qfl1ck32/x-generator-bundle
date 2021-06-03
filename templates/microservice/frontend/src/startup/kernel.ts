@@ -1,8 +1,6 @@
 import { Kernel } from "@kaviar/core";
 import { XUIBundle } from "@kaviar/x-ui";
-{{# if adminMode }}
-  import { XUIAdminBundle } from "@kaviar/x-ui-admin";
-{{/ if }}
+import { XUIAdminBundle } from "@kaviar/x-ui-admin";
 import { UIAppBundle } from "../bundles/UIAppBundle/UIAppBundle";
 
 // All UI bundles need to be prefixed with UI
@@ -13,12 +11,10 @@ export const kernel = new Kernel({
       graphql: {
         // ApolloClient Options
         // https://www.apollographql.com/docs/react/api/core/ApolloClient/#ApolloClientOptions
-        uri: process.env.REACT_APP_GRAPHQL_URI,
+        uri: process.env.API_URL,
       },
     }),
-    {{# if adminMode }}
-      new XUIAdminBundle(),
-    {{/ if }}
+    new XUIAdminBundle(),
     new UIAppBundle(),
   ],
 });

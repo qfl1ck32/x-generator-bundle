@@ -32,11 +32,11 @@ export const kernel = new Kernel({
       uri: env.MONGO_URL,
     }),
     new SecurityBundle(),
-    new SecurityMongoBundle(
+    new SecurityMongoBundle({
       {{# if hasUsers }}
         usersCollection: UsersCollection
       {{/ if }}
-    ),
+    }),
     new ApolloSecurityBundle(),
     new XBundle({
       appUrl: env.APP_URL,

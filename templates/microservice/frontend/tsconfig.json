@@ -1,13 +1,12 @@
 {
-  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2019",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
@@ -17,7 +16,12 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "paths": {
+      "@bundles/*": ["src/bundles/*"],
+      "@root/*": ["src/*"]
+    }
   },
   "include": ["src"]
 }

@@ -17,27 +17,20 @@ import {
   Card,
 } from "antd";
 
-export function NotAuthorized() {
+export function NotFound() {
   const guardian = useGuardian();
   const router = useRouter();
 
   const style = { minHeight: "100vh" };
-  const { user, isLoggedIn } = guardian.state;
-  const firstName = user?.profile?.firstName;
+  const { isLoggedIn } = guardian.state;
 
   return (
     <Row justify="center" align="middle" style={style}>
       <Col sm={24} md={16} lg={8}>
-        <Card title="Authorisation Error">
-          {isLoggedIn && <p>You are already logged in as {firstName}.</p>}
-
-          <Alert
-            type="error"
-            message="The page you tried to access is not authorized for you."
-          />
+        <Card title="404 Error">
+          <p>The route you tried to access could not be found.</p>
 
           <p>
-            <br />
             <Space>
               {isLoggedIn && (
                 <Link to={router.path(Routes.DASHBOARD)}>
