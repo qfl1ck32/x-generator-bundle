@@ -1,4 +1,4 @@
-### Kaviar X UI Boilerplate
+### {{ name }} X-Framework UI Boilerplate
 
 ```bash
 cp .env.example .env

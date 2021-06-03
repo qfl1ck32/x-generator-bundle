@@ -1,5 +1,5 @@
 {
-  "name": "webpack-seed",
+  "name": "{{ name }}",
   "sideEffects": [
     "**/*.css",
     "**/*.scss"
