@@ -1,5 +1,5 @@
 export default /* GraphQL */ `
-  type {{ modelClass }} {
-    {{ graphqlContents }}
+  input {{ modelClass }} {
+    {{ toGraphQL }}
   }
 `
