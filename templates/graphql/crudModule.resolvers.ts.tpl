@@ -1,4 +1,6 @@
 import * as X from "@kaviar/x-bundle";
+import { IResolverMap } from "@kaviar/graphql-bundle";
+
 {{ collectionImportLine }}
 
 export default {
@@ -63,4 +65,4 @@ export default {
       },
     },
   {{/ if }}
-}
+} as IResolverMap;

@@ -17,13 +17,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@ant-design/icons": "^4.5.0",
     "@apollo/client": "^3.3.11",
     "@kaviar/core": "^1.1.6",
     "@kaviar/smart": "^1.2.4",
     "@kaviar/x-ui": "^1.4.4",
     "@kaviar/x-ui-admin": "^1.0.0",
-    "antd": "^4.12.3",
     "dotenv": "^8.6.0",
     "graphql": "^15.5.0",
     "react": "^17.0.1",
