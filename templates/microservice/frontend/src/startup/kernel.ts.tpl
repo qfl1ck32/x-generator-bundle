@@ -1,7 +1,9 @@
 import { Kernel } from "@kaviar/core";
 import { XUIBundle } from "@kaviar/x-ui";
-import { XUIAdminBundle } from "@kaviar/x-ui-admin";
 import { UIAppBundle } from "../bundles/UIAppBundle/UIAppBundle";
+{{# if adminMode }}
+  import { XUIAdminBundle } from "@kaviar/x-ui-admin";
+{{/ if }}
 
 // All UI bundles need to be prefixed with UI
 // All X-Framework bundles have the first prefix X
@@ -14,7 +16,9 @@ export const kernel = new Kernel({
         uri: process.env.API_URL,
       },
     }),
-    new XUIAdminBundle(),
     new UIAppBundle(),
+    {{# if adminMode }}
+      new XUIAdminBundle(),
+    {{/ if }}
   ],
 });

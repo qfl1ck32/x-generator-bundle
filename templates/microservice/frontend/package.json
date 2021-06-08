@@ -21,13 +21,11 @@
     "@kaviar/core": "^1.1.6",
     "@kaviar/smart": "^1.2.4",
     "@kaviar/x-ui": "^1.4.4",
-    "@kaviar/x-ui-admin": "^1.0.0",
     "dotenv": "^8.6.0",
     "graphql": "^15.5.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^4.0.3",
     "typescript": "^4.1.5"
   },
   "devDependencies": {
