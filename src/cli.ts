@@ -3,6 +3,7 @@
 // CLITS
 import { Kernel } from "@kaviar/core";
 import { TerminalBundle } from "@kaviar/terminal-bundle";
+import { execSync } from "child_process";
 import { XGeneratorBundle } from "./XGeneratorBundle";
 
 const kernel = new Kernel({
@@ -14,4 +15,6 @@ const kernel = new Kernel({
   ],
 });
 
-kernel.init();
+kernel.init().then(() => {
+  // exec('npm view @kaviar/x version').
+});

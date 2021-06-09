@@ -43,6 +43,15 @@ export class XGeneratorBundle extends Bundle<IXGeneratorBundleConfig> {
   }
 }
 
+const packageVersion = require("../package.json").version;
+const result = execSync("npm view @kaviar/x version");
+const latestVersion = result.toString().split("\n")[0];
+let showUpdateInstructions = false;
+
+if (packageVersion !== latestVersion) {
+  showUpdateInstructions = true;
+}
+
 const X_WAY = String.raw`
 ___   ___      ____    __    ____  ___   ____    ____ 
 \  \ /  /      \   \  /  \  /   / /   \  \   \  /   / 
@@ -50,6 +59,9 @@ ___   ___      ____    __    ____  ___   ____    ____
   >   <   |______\            / /  /_\  \  \_    _/   
  /  .  \          \    /\    / /  _____  \   |  |     
 /__/ \__\          \__/  \__/ /__/     \__\  |__|
-
-                  by KaviarJS     
+${
+  showUpdateInstructions
+    ? `New version available (${latestVersion})\nnpm i -g @kaviar/x`
+    : ""
+}    
 `;
