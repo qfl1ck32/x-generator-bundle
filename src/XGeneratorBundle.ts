@@ -43,14 +43,22 @@ export class XGeneratorBundle extends Bundle<IXGeneratorBundleConfig> {
   }
 }
 
+// This is a mechanism to check for the latest version
 const packageVersion = require("../package.json").version;
-const result = execSync("npm view @kaviar/x version");
-const latestVersion = result.toString().split("\n")[0];
+const result = execSync("npm view @kaviar/x version", {
+  timeout: 2000,
+});
+
+let latestVersion;
 let showUpdateInstructions = false;
 
-if (packageVersion !== latestVersion) {
-  showUpdateInstructions = true;
-}
+try {
+  latestVersion = result.toString().split("\n")[0];
+
+  if (packageVersion !== latestVersion) {
+    showUpdateInstructions = true;
+  }
+} catch (e) {}
 
 const X_WAY = String.raw`
 ___   ___      ____    __    ____  ___   ____    ____ 
