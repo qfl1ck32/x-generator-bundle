@@ -5,11 +5,29 @@ import { NearestElementNotFoundException } from "../exceptions/NearestElementNot
 
 const TEMPLATES_DIR = __dirname + "/../../templates";
 
+/**
+ * A hack to allow using microservice path when the command isn't executed in the context of a microservice
+ * For example, when creating a new microservice and we want to add collections, other x elements, when using the writer,
+ * the writer gets the microservice path
+ */
+let MICROSERVICE_PATH = null;
 export class FSUtils {
+  /**
+   * Use it when creating microservices and there isn't a one set yet
+   * @param path
+   */
+  static setMicroservicePathOverride(path: string | null) {
+    MICROSERVICE_PATH = path;
+  }
+
   static getNearest(
     type: "microservice" | "project",
     starting = process.cwd()
   ) {
+    if (type === "microservice" && MICROSERVICE_PATH) {
+      return MICROSERVICE_PATH;
+    }
+
     if (starting === "/") {
       throw new NearestElementNotFoundException({ type });
     }

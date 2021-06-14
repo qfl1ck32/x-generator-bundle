@@ -22,11 +22,6 @@ export class MicroserviceInquirer extends Inquirer<MicroserviceModel> {
     }
 
     await this.prompt(
-      "name",
-      Shortcuts.input("Enter the name of the microservice")
-    );
-
-    await this.prompt(
       "type",
       Shortcuts.autocomplete(
         "Enter the type",
@@ -34,10 +29,18 @@ export class MicroserviceInquirer extends Inquirer<MicroserviceModel> {
       )
     );
 
+    await this.prompt(
+      "name",
+      Shortcuts.input("Enter the name of the microservice")
+    );
+
     if (this.model.type === MicroserviceTypeEnum.BACKEND) {
       await this.prompt(
         "hasUsers",
-        Shortcuts.confirm("Do you want to integrate a custom user collection?")
+        Shortcuts.confirm(
+          "Do you want to integrate a custom user collection?",
+          false
+        )
       );
     }
   }
