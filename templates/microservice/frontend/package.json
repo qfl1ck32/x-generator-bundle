@@ -8,7 +8,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack serve --open --config webpack.dev.js",
+    "start": "node src/server.js",
+    "start:dev": "webpack serve --open --config webpack.dev.js",
     "build": "NODE_ENV=production webpack --config webpack.prod.js",
     "test": "npx jest",
     "generate": "graphql-codegen --config codegen.yml"
@@ -22,6 +23,7 @@
     "@kaviar/smart": "^1.2.4",
     "@kaviar/x-ui": "^1.4.4",
     "dotenv": "^8.6.0",
+    "express": "^4.17.1",
     "graphql": "^15.5.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

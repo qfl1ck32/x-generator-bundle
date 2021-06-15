@@ -6,5 +6,5 @@ cp .env.example .env
 
 ```bash
 npm install
-npm start
+npm run start:dev
 ```

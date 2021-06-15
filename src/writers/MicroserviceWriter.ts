@@ -64,10 +64,14 @@ export class MicroserviceWriter extends BlueprintWriter {
     session.afterCommitInstruction(() => {
       console.log(`Your ${model.type} microservice is now ready`);
       if (model.type === MicroserviceTypeEnum.BACKEND) {
-        console.log(`cd ${model.name} ; npm install ; npm update ; npm start`);
+        console.log(
+          `cd ${model.name} ; npm install ; npm update ; npm run start:dev`
+        );
       }
       if (model.type === MicroserviceTypeEnum.FRONTEND) {
-        console.log(`cd ${model.name} ; npm install ; npm update ; npm start`);
+        console.log(
+          `cd ${model.name} ; npm install ; npm update ; npm run start:dev`
+        );
       }
     });
   }

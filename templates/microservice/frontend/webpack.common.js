@@ -64,7 +64,9 @@ module.exports = function (env) {
       },
     },
     plugins: [
-      new Dotenv(),
+      new Dotenv({
+        systemvars: true,
+      }),
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional

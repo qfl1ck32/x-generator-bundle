@@ -5,9 +5,9 @@
   "private": true,
   "main": "dist/startup/index.js",
   "scripts": {
-    "compile": "tsc",
-    "compile:watch": "tsc -w",
-    "start": "npm run compile; tsc -w --preserveWatchOutput & nodemon -q -w dist dist/startup/index.js",
+    "build": "tsc",
+    "start": "node dist/startup/index.js",
+    "start:dev": "npm run build; tsc -w --preserveWatchOutput & nodemon -q -w dist dist/startup/index.js",
     "start:watch:debug": "nodemon --watch 'dist' dist/startup/index.js --inspect",
     "watch": "tsc -w",
     "pretest": "npm run compile",
@@ -47,6 +47,7 @@
     "graphql-upload": "^11.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "passport": "^0.4.1",
     "yup": "^0.29.2"
   },
   "devDependencies": {
