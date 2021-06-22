@@ -17,6 +17,7 @@ export class {{ fixtureClass }} {
   @Inject()
   databaseService: DatabaseService;
 
+
   async init() {
     if (!(await this.shouldRun())) {
       return;
@@ -24,15 +25,20 @@ export class {{ fixtureClass }} {
 
     await this.clean();
     console.log(`Running app fixtures.`);
+    await this.loadData();
+    console.log(`Completed app fixtures.`);
+  }
 
+  async loadData() {
     for (const collectionName in dataMap) {
-      const collection = this.databaseService.getMongoCollection(
-        collectionName
-      );
+      const collection =
+        this.databaseService.getMongoCollection(collectionName);
       const documents = dataMap[collectionName].map((document) =>
         EJSON.fromJSONValue(document)
       );
-      await collection.insertMany(documents);
+      if (documents.length) {
+        await collection.insertMany(documents);
+      }
 
       console.log(`Added fixtures for ${collectionName}`);
     }
@@ -40,8 +46,6 @@ export class {{ fixtureClass }} {
     if (dataMap["users"]) {
       await this.handleUsers();
     }
-
-    console.log(`Completed app fixtures.`);
   }
 
   async clean() {

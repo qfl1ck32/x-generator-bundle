@@ -13,11 +13,6 @@ if (fs.existsSync(".env")) {
   console.warn("There is no .env variable configured");
 }
 
-if (result.error) {
-  console.error(result.error);
-  process.exit(0);
-}
-
 export default {
   APP_URL: process.env.APP_URL,
   ROOT_URL: process.env.ROOT_URL,

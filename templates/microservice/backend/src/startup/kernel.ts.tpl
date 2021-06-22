@@ -8,6 +8,7 @@ import { XBundle } from "@kaviar/x-bundle";
 import { ApolloSecurityBundle } from "@kaviar/apollo-security-bundle";
 import { PasswordBundle } from "@kaviar/password-bundle";
 import { XPasswordBundle } from "@kaviar/x-password-bundle";
+import { GraphQLBundle } from "@kaviar/graphql-bundle";
 import { EmailBundle } from "@kaviar/email-bundle";
 import { ValidatorBundle } from "@kaviar/validator-bundle";
 {{# if hasUsers }}
@@ -23,6 +24,7 @@ export const kernel = new Kernel({
   bundles: [
     new LoggerBundle(),
     new ValidatorBundle(),
+    new GraphQLBundle(),
     new ApolloBundle({
       port: env.ROOT_PORT,
       url: env.ROOT_URL,

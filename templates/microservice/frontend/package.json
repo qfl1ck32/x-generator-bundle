@@ -31,6 +31,10 @@
     "typescript": "^4.1.5"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^1.20.1",
+    "@graphql-codegen/introspection": "^1.8.3",
+    "@graphql-codegen/typescript": "^1.21.0",
+    "@graphql-codegen/typescript-operations": "^1.17.14",
     "@types/jest": "^26.0.20",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^16.9.11",
