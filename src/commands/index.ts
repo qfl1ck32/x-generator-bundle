@@ -90,6 +90,11 @@ const commands: ICommand[] = [
     inquirer: Inquirers.CollectionLinkInquirer,
     writer: Writers.CollectionLinkWriter,
   },
+  {
+    id: "x:email",
+    inquirer: Inquirers.EmailTemplateInquirer,
+    writer: Writers.EmailTemplateWriter,
+  },
 ];
 
 commands.map((command) => {

@@ -17,3 +17,4 @@ export * from "./ProjectInquirer";
 export * from "./ServerRouteInquirer";
 export * from "./ServiceInquirer";
 export * from "./ValidatorInquirer";
+export * from "./EmailTemplateInquirer";

@@ -1,4 +1,8 @@
-import { Inquirer, Shortcuts } from "@kaviar/terminal-bundle";
+import {
+  IAutocompleteOption,
+  Inquirer,
+  Shortcuts,
+} from "@kaviar/terminal-bundle";
 import { CreateBundleModel } from "../models";
 import { FSUtils } from "../utils/FSUtils";
 import { GenericModel } from "../models/GenericModel";
@@ -7,7 +11,6 @@ import {
   GenericFieldTypeEnum,
   IFieldBaseSignature,
 } from "../models/defs";
-import { IAutocompleteOption } from "../../../terminal-bundle/dist/services/Shortcuts";
 
 export class GenericFieldInquirer extends Inquirer<IGenericField> {
   allOptions = this.getFieldAutocompleteOptions();

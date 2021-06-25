@@ -17,3 +17,4 @@ export * from "./ServerRouteWriter";
 export * from "./ServiceWriter";
 export * from "./UnitTestWriter";
 export * from "./ValidatorWriter";
+export * from "./EmailTemplateWriter";
